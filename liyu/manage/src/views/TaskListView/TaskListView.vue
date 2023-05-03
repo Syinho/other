@@ -8,7 +8,7 @@
     <el-icon class="el-icon--left"><Plus /></el-icon>
     添加任务
   </el-button>
-  <el-table :data="tableData" style="width: 100%" v-loading="loading" border stripe>
+  <el-table :data="tableData" style="width: 100%" v-loading="loading" border stripe max-height="calc(100vh - 200px)">
     <el-table-column prop="fields.name" label="体测任务" width="180" />
     <el-table-column prop="fields.begin_time" label="起始时间" width="180" />
     <el-table-column prop="fields.end_time" label="终止时间" />

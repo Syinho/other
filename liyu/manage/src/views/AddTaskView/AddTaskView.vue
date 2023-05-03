@@ -73,7 +73,7 @@
 
 <script setup>
 import { ref, reactive, watch } from 'vue'
-import { reqPostTask, reqGetAllTeachers, reqPostStusInfo, reqPostTeachers } from '@/ajax/api.js'
+import { reqPostTask, reqGetAllTeachers, reqPostStusInfo, reqPostTeachers,reqGetTaskList } from '@/ajax/api.js'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import { useRouter } from 'vue-router'
 const $router = useRouter()
@@ -130,28 +130,35 @@ const getAllTeachers = async function () {
 getAllTeachers()
 /* 提交体测任务 */
 const onSubmit = function () {
-  ruleForms.value.validate(valid => {
+  ruleForms.value.validate(async valid => {
     if (valid) {
       // 1.处理时间数据为秒时间戳
       let year = new Date(form.begin_time).getFullYear()
       let begin_time = Number(new Date(form.begin_time).getTime()) / 1000
       let end_time = Number(new Date(form.end_time).getTime()) / 1000
       // 2.上传基本信息
-      const resPostTask = reqPostTask(form.name, begin_time, end_time, form.half.id, year)
+      const resPostTask = await reqPostTask(form.name, begin_time, end_time, form.half.id, year)
+      // 3.获取全部的任务数据以便获得任务pk值
+      if(Number(resPostTask.code)===200){
+        const resAllTask=await reqGetTaskList()
+        console.log(resAllTask)
+        if(Number(resAllTask.code)===200){
+          const data=JSON.parse(resAllTask.data)
+          Array.prototype.find.call(data,item=>{
+          })
+          console.log(data)
+        }
+      }else{
+        ElMessage.error(`code:${resPostTask.code},msg:${resPostTask.msg}`)
+      }
       // 3.上传学生文件
-      let oFile = document.querySelector('.files')
-      console.log(oFile.files[0])
-      let f = new FormData().append('file',oFile.files[0])
-      const resPostStusInfo = reqPostStusInfo(f)
-      // 4.上传教师名单
-      console.log(form.teachers)
-      const resPostTeachers = reqPostTeachers(form.teachers)
-      // 5.检查结果
-      Promise.allSettled([resPostTask, resPostStusInfo, resPostTeachers])
-        .then(result => {
-          console.log(result)
-        })
-        .catch(err => err)
+      // let oFile = document.querySelector('.files')
+      // console.log(oFile.files[0])
+      // let f = new FormData().append('file',oFile.files[0])
+      // const resPostStusInfo = reqPostStusInfo(f)
+      // // 4.上传教师名单
+      // console.log(form.teachers)
+      // const resPostTeachers = reqPostTeachers(form.teachers)
     }
   })
 }

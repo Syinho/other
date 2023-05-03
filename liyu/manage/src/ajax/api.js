@@ -50,9 +50,6 @@ export const reqPostStusInfo = f =>
     method: 'post',
     url: '/uploadstudentinfomation',
     data: f,
-    Headers: {
-      'Content-type': 'application/x-www-form-urlencoded',
-    },
   })
     .then(response => response.data)
     .catch(err => err)

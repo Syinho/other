@@ -5,14 +5,18 @@ const instance = axios.create({
   baseURL: HOST,
   timeout: 10000,
 })
-const token = localStorage.getItem('token')
 
+let formDataArr=['/uploadstudentinfomation']
 // 添加请求拦截器
 instance.interceptors.request.use(
   function (config) {
     // 在发送请求之前做些什么
+    const token = localStorage.getItem('token')
     if (token) {
       config.headers['Authorization'] = 'bearer ' + token
+    }
+    if(formDataArr.indexOf(config.url)!==-1){
+      config.headers['Content-Type']='application/x-www-form-urlencoded; charset=UTF-8'
     }
     console.log(config)
     return config
