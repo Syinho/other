@@ -3,7 +3,7 @@ import { HOST } from './env.js'
 
 const instance = axios.create({
   baseURL: HOST,
-  timeout: 10000,
+  timeout: 50000,
 })
 
 let formDataArr=['/uploadstudentinfomation']

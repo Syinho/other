@@ -52,6 +52,14 @@ export default [
             name: 'addTask',
             component: () => import('@/views/AddTaskView/AddTaskView.vue'),
           },
+          {
+            path: 'addTask1',
+            name: 'addTask1',
+            component: () => import('@/views/AddTaskView1/AddTaskView1.vue'),
+            children: [
+              { path: ':pk', component: () => import('@/views/AddTaskView1/AddTaskView1.vue') },
+            ],
+          },
           // 添加教师
           {
             path: 'addteacher',

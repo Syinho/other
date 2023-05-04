@@ -114,6 +114,7 @@ onMounted(() => {
   randomStar()
 
   function randomStar() {
+    console.log(1)
     let starData = []
     for (let i = 0; i < 10; i++) {
       let randomBorder = Math.floor(Math.random() * 11 + 5) // [5,15]

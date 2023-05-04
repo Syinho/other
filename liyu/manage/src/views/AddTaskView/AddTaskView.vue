@@ -1,7 +1,7 @@
 <template>
   <div>
     <h2 :style="{ marginBottom: '10px' }">添加任务</h2>
-    <el-form :model="form" label-width="150px" ref="ruleForms" :rules="rules">
+    <el-form :model="form" label-width="150px" ref="ruleForms" :rules="rules" v-loading="loading">
       <el-form-item prop="name" label="体测任务">
         <el-col :md="10" :sm="16" :xs="24">
           <el-input v-model="form.name" placeholder="请输入要添加的体测任务名"></el-input>
@@ -73,7 +73,13 @@
 
 <script setup>
 import { ref, reactive, watch } from 'vue'
-import { reqPostTask, reqGetAllTeachers, reqPostStusInfo, reqPostTeachers,reqGetTaskList } from '@/ajax/api.js'
+import {
+  reqPostTask,
+  reqGetAllTeachers,
+  reqPostStusInfo,
+  reqPostTeachers,
+  reqGetTaskList,
+} from '@/ajax/api.js'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import { useRouter } from 'vue-router'
 const $router = useRouter()
@@ -86,6 +92,8 @@ const form = reactive({
   teachers: [],
 })
 const ruleForms = ref(null)
+const task_id = ref(null)
+let loading = ref(false)
 
 /* 校验规则 */
 const rules = reactive({
@@ -116,6 +124,7 @@ const rules = reactive({
 /* 获取全部教师数据 */
 let teacherOptions = ref([])
 const getAllTeachers = async function () {
+  loading.value = true
   const resAllTeachers = await reqGetAllTeachers()
   if (Number(resAllTeachers.code) === 200) {
     const data = JSON.parse(resAllTeachers.data)
@@ -126,6 +135,7 @@ const getAllTeachers = async function () {
       $router.replace({ path: '/login_register' })
     }
   }
+  loading.value = false
 }
 getAllTeachers()
 /* 提交体测任务 */
@@ -133,23 +143,66 @@ const onSubmit = function () {
   ruleForms.value.validate(async valid => {
     if (valid) {
       // 1.处理时间数据为秒时间戳
+      loading = true
+      const oFile = document.querySelector('.files')
       let year = new Date(form.begin_time).getFullYear()
       let begin_time = Number(new Date(form.begin_time).getTime()) / 1000
       let end_time = Number(new Date(form.end_time).getTime()) / 1000
       // 2.上传基本信息
+      console.log('1.添加基本任务数据')
       const resPostTask = await reqPostTask(form.name, begin_time, end_time, form.half.id, year)
+      console.log(resPostTask)
       // 3.获取全部的任务数据以便获得任务pk值
-      if(Number(resPostTask.code)===200){
-        const resAllTask=await reqGetTaskList()
+      if (Number(resPostTask.code) === 200) {
+        console.log('2.获取任务pk值')
+        const resAllTask = await reqGetTaskList()
         console.log(resAllTask)
-        if(Number(resAllTask.code)===200){
-          const data=JSON.parse(resAllTask.data)
-          Array.prototype.find.call(data,item=>{
+        if (Number(resAllTask.code) === 200) {
+          const data = JSON.parse(resAllTask.data)
+          const task = Array.prototype.find.call(data, item => {
+            return item.fields.name === form.name
           })
-          console.log(data)
+          task_id.value = Number(task.pk)
+          console.log(task_id.value)
+          // 4.检查文件是否上传成功?
+          if (oFile.files.length === 0) {
+            return
+          } else {
+            let f = new FormData()
+            f.append('task_id', Number(task_id.value))
+            f.append('file', oFile.files[0])
+            console.log('3.上传学生文件')
+            const resPostStusInfo = await reqPostStusInfo(f)
+            console.log(resPostStusInfo)
+            if (Number(resPostStusInfo.code) === 200) {
+              // 5.检查教师数据是否获取到
+              if (teacherOptions.value.length > 0) {
+                console.log('4.上传教师名单')
+                const resPostTeachers = await reqPostTeachers(Number(task_id.value), form.teachers)
+                console.log(resPostTeachers)
+                if (Number(resPostTeachers.code) === 200) {
+                  ElMessage({
+                    type: 'success',
+                    message: '添加体测任务成功',
+                  })
+                  $router.push({ name: 'taskList' })
+                } else {
+                  ElMessage.error(`code:${resPostTask.code},msg:${resPostTask.msg}`)
+                  loading = false
+                }
+              }
+            } else {
+              ElMessage.error(`code:${resPostTask.code},msg:${resPostTask.msg}`)
+              loading = false
+            }
+          }
+        } else {
+          ElMessage.error(`code:${resPostTask.code},msg:${resPostTask.msg}`)
+          loading = false
         }
-      }else{
+      } else {
         ElMessage.error(`code:${resPostTask.code},msg:${resPostTask.msg}`)
+        loading = false
       }
       // 3.上传学生文件
       // let oFile = document.querySelector('.files')

@@ -23,7 +23,7 @@ export const reqGetTaskList = () =>
     .then(response => response.data)
     .catch(err => err)
 
-// 2.2 添加体测任务
+// 2.2 添加体测任务1_添加基本的体测任务
 export const reqPostTask = (name, begin_time, end_time, half, year) =>
   instance
     .post('/task', {
@@ -37,14 +37,7 @@ export const reqPostTask = (name, begin_time, end_time, half, year) =>
     })
     .then(response => response.data)
     .catch(err => err)
-// 2.3 获取全部教师
-export const reqGetAllTeachers = () =>
-  instance
-    .get('/teacher')
-    .then(response => response.data)
-    .catch(err => err)
-
-// 2.4 上传学生文件
+// 2.3 添加体测任务2_上传学生的基本信息
 export const reqPostStusInfo = f =>
   instance({
     method: 'post',
@@ -54,13 +47,20 @@ export const reqPostStusInfo = f =>
     .then(response => response.data)
     .catch(err => err)
 
-// 2.5 给教师上传学生名单
+// 2.4 添加体测任务3_给教师上传学生名单
 // 上传由教师pk值组成的数组
-export const reqPostTeachers = teacherArr =>
+export const reqPostTeachers = (task_id, teachers) =>
   instance
-    .post('/distributeteacher', { data: teacherArr })
+    .post('/distributeteacher', { data: { task_id, teachers } })
     .then(response => response.data)
     .catch(err => err)
+// 2.5 获取全部教师
+export const reqGetAllTeachers = () =>
+  instance
+    .get('/teacher')
+    .then(response => response.data)
+    .catch(err => err)
+
 /* 3.教师账户管理 */
 // 3.1 添加新的教师
 export const reqPostNewTeacher = (uid, name) =>

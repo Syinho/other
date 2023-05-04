@@ -1,11 +1,10 @@
 #main {
-  width: 100vw;
-  min-width: 600px;
+  width: 100%;
   height: 100vh;
   & .header-container {
     border-bottom: 5px solid #ccc;
     & > .header {
-      width: calc(100vw - 40px);
+      width: 100%;
       height: 75px;
       display: flex;
       justify-content: space-between;
