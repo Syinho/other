@@ -21,8 +21,10 @@
     <el-table-column prop="fields.end_time" label="终止时间" />
     <el-table-column prop="fields.half" label="春/秋"></el-table-column>
     <el-table-column label="操作">
-      <el-button type="warning" link size="small">编辑</el-button>
-      <el-button type="default" link size="small">查看</el-button>
+      <template #default="scope">
+        <el-button type="warning" link size="small" @click="edit(scope.row)">编辑</el-button>
+        <el-button type="default" link size="small" @click="view(scope.row)">查看</el-button>
+      </template>
     </el-table-column>
   </el-table>
   <div class="pagination-container">
@@ -95,6 +97,14 @@ const getAllTaskList = async function () {
   loading.value = false
 }
 getAllTaskList()
+
+/* 修改按钮 */
+const edit = function () {}
+
+/* 查看按钮 */
+const view = function (data) {
+  $router.push('/manage/admin/viewtask/' + data.pk)
+}
 </script>
 
 <style scoped lang="scss">

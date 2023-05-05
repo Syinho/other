@@ -61,6 +61,15 @@ export const reqGetAllTeachers = () =>
     .then(response => response.data)
     .catch(err => err)
 
+// 2.6 查看体测任务
+export const reqGetTask = task_id =>
+  instance
+    .get('/task', { params: { task_id } })
+    .then(response => response.data)
+    .catch(err => err)
+
+// 2.7 查看任务完成情况
+
 /* 3.教师账户管理 */
 // 3.1 添加新的教师
 export const reqPostNewTeacher = (uid, name) =>

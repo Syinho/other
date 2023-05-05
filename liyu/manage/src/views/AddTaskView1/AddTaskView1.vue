@@ -16,7 +16,7 @@
       </div>
       <el-carousel
         height="calc(100vh - 200px)"
-        style="width: 600px"
+        style="width: calc(80vw - 150px)"
         direction="vertical"
         :autoplay="false"
         indicator-position="none"

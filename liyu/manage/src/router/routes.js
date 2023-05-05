@@ -23,11 +23,16 @@ export default [
         name: 'admin',
         redirect: '/manage/admin/tasklist',
         children: [
-          // 体测任务
+          // 体测任务列表
           {
             path: 'tasklist',
             name: 'taskList',
             component: () => import('@/views/TaskListView/TaskListView.vue'),
+          },
+          // 查看指定体侧任务详情
+          {
+            path: 'viewtask/:id',
+            component: () => import('@/views/viewTaskView/viewTaskView.vue'),
           },
           {
             path: 'usermanage',
