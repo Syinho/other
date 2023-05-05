@@ -2,9 +2,9 @@
     <div>
         <h2 :style="{ marginBottom: '10px' }">录入成绩</h2>
         <el-table
-            :data="pageData.tableData"
+            :data="tableData"
             style="width: 100%"
-            v-loading="pageData.loading"
+            v-loading="loading"
             border
             stripe
             max-height="calc(100vh - 250px)"
@@ -20,14 +20,12 @@
             <el-table-column
                 :show-overflow-tooltip="true"
                 align="center"
-                :prop="item.name"
-                :label="item.value"
+                prop="fields.height.value"
+                label="身高"
                 sortable
-                v-for="item in props"
-                :key="item.name"
             >
-                <template #default="scope">
-                    <el-input
+                <template #default="scope" v-if="show">
+                    <!-- <el-input
                         v-model="scope.row.fields[scope.column.property].value"
                         v-show="scope.row.fields[scope.column.property].showInput"
                         clearable
@@ -37,7 +35,8 @@
                     ></el-input>
                     <el-text v-show="!scope.row.fields[scope.column.property].showInput">
                         {{ scope.row.fields[scope.column.property].value }}
-                    </el-text>
+                    </el-text> -->
+                    <el-text>{{ scope.row.fields }}</el-text>
                 </template>
             </el-table-column>
         </el-table>
@@ -49,22 +48,34 @@ import { ref, reactive } from 'vue'
 import { reqGetStusList } from '@/ajax/api.js'
 import { useRoute } from 'vue-router'
 const $route = useRoute()
-const pageData = reactive({
-    tableData: [],
-    loading: false,
-})
+const tableData = ref([])
+const loading = ref(false)
+const show = ref(false)
+// const props = ref([
+//     { name: 'adbominal_curl', value: '仰卧起坐' },
+//     { name: 'flexion', value: '坐位体前屈' },
+//     { name: 'height', value: '身高' },
+//     { name: 'jump', value: '跳远' },
+//     { name: 'left_eye', value: '左眼' },
+//     { name: 'pull_up', value: '引体向上' },
+//     { name: 'pulmonary', value: '肺活量' },
+//     { name: 'right_eye', value: '右眼' },
+//     { name: 'run50', value: '50米' },
+//     { name: 'run800', value: '800米' },
+//     { name: 'run1000', value: '1000米' },
+// ])
 const props = [
-    { name: 'adbominal_curl', value: '仰卧起坐' },
-    { name: 'flexion', value: '坐位体前屈' },
-    { name: 'height', value: '身高' },
-    { name: 'jump', value: '跳远' },
-    { name: 'left_eye', value: '左眼' },
-    { name: 'pull_up', value: '引体向上' },
-    { name: 'pulmonary', value: '肺活量' },
-    { name: 'right_eye', value: '右眼' },
-    { name: 'run50', value: '50米' },
-    { name: 'run800', value: '800米' },
-    { name: 'run1000', value: '1000米' },
+    'adbominal_curl',
+    'flexion',
+    'height',
+    'jump',
+    'left_eye',
+    'pull_up',
+    'pulmonary',
+    'right_eye',
+    'run50',
+    'run800',
+    'run1000',
 ]
 
 /* 获取学生数据 */
@@ -82,19 +93,21 @@ const getStusData = async function () {
                 stu.fields.student.sex = '女'
             }
             Array.prototype.forEach.call(props, prop => {
-                stu.fields[prop] = { showInput: false, value: stu.fields[prop.name] }
+                stu.fields[prop] = { showInput: false, value: stu.fields[prop] }
             })
         })
-        pageData.tableData = data
+        tableData.value = data
+        console.log(data)
+        show.value = true
     }
 }
 getStusData()
 
 const hiddenInputs = function () {
-    Array.prototype.forEach.call(pageData.tableData, item => {
-        const { fields } = item
+    Array.prototype.forEach.call(tableData.value, item => {
+        const fields = item.fields
         Array.prototype.forEach.call(props, prop => {
-            fields[prop.name].showInput = false
+            fields[prop].showInput = false
         })
     })
 }
