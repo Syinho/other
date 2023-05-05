@@ -65,15 +65,32 @@
           <h4 :style="{ marginBottom: '20px' }">上传参与的学生信息文件</h4>
           <el-button type="primary" @click="upload" style="position: relative">
             <input type="file" name="" id="file" @change="change" ref="file" />
-            <el-icon class="el-icon--left"><Upload /></el-icon>
+            <el-icon class="el-icon--left">
+              <Upload />
+            </el-icon>
             上传文件
           </el-button>
           <el-text v-if="filename">
-            <el-icon color="#67C23A"><Document /></el-icon>
+            <el-icon color="#67C23A">
+              <Document />
+            </el-icon>
             {{ filename }}
           </el-text>
           <div style="height: 20px"></div>
-          <el-button type="success" @click="submitBasicInfo">下一步</el-button>
+          <el-button type="success" @click="submitStusInfo">下一步</el-button>
+        </el-carousel-item>
+        <el-carousel-item name="step3">
+          <h4 :style="{ marginBottom: '20px' }">选择指导教师</h4>
+          <el-select v-model="form1.teachers" multiple placeholder="选择教师" style="width: 100%">
+            <el-option
+              v-for="item in teacherOptions"
+              :key="item.pk"
+              :label="item.fields.name"
+              :value="item.pk"
+            />
+          </el-select>
+          <div :style="{ height: '20px' }"></div>
+          <el-button type="primary" @click="addTask">提交体测任务</el-button>
         </el-carousel-item>
       </el-carousel>
     </div>
@@ -95,16 +112,18 @@ import { ref, reactive, watch, nextTick } from 'vue'
 const $router = useRouter()
 const $route = useRoute()
 const carousel = ref()
-const file = ref()
+const file = ref() // 标识文件的DOM
 const active = ref(0)
-const task_status = ref(null) // null表示未定义, 即未创建该任务, 指的是直接通过添加任务按钮进入的; 1 代表已经填写基本信息 2 代表上传了学生数据 3代表选择了指导教师
 const task_id = ref(null) // 任务id
 const form1 = reactive({
   name: '',
   begin_time: '',
   end_time: '',
   half: { id: '', value: '' },
+  teachers: [],
 })
+let teacherOptions = ref([]) // 储存全部的教师数据
+
 const ruleForms1 = ref(null)
 let loading = ref(false)
 const filename = ref('')
@@ -131,7 +150,6 @@ const rules = reactive({
       trigger: 'blur',
     },
   ],
-  filename: [{ required: true, message: '请上传学生基本信息', trigger: 'blur' }],
 })
 
 /* 判断pk值与其status */
@@ -193,35 +211,79 @@ watch(
 
 /* 上传基本信息 */
 const submitBasicInfo = function () {
-  // ruleForms1.value.validate(async valid => {
-  //   if (valid) {
-  //     loading.value = true
-  //     let year = new Date(form1.begin_time).getFullYear()
-  //     let begin_time = Number(new Date(form1.begin_time).getTime()) / 1000
-  //     let end_time = Number(new Date(form1.end_time).getTime()) / 1000
-  //     const resPostTask = await reqPostTask(form1.name, begin_time, end_time, form1.half.id, year)
-  //     if (Number(resPostTask.code) === 200) {
-  //       active.value = 1
-  //       carousel.value.setActiveItem('step2')
-  //       const resAllTask = await reqGetTaskList()
-  //       if (Number(resAllTask.code) === 200) {
-  //         const data = JSON.parse(resAllTask.data)
-  //         const task = Array.prototype.find.call(data, item => {
-  //           return item.fields.name === form1.name
-  //         })
-  //         task_id.value = Number(task.pk)
-  //         task_status.value = 1
-  //       } else {
-  //         ElMessage.error('获取任务pk值失败')
-  //       }
-  //     } else {
-  //       ElMessage.error('上传体测任务基本信息失败')
-  //     }
-  //     loading.value = false
-  //   }
-  // })
-  active.value = 1
-  carousel.value.setActiveItem('step2')
+  ruleForms1.value.validate(async valid => {
+    if (valid) {
+      loading.value = true
+      let year = new Date(form1.begin_time).getFullYear()
+      let begin_time = Number(new Date(form1.begin_time).getTime()) / 1000
+      let end_time = Number(new Date(form1.end_time).getTime()) / 1000
+      const resPostTask = await reqPostTask(form1.name, begin_time, end_time, form1.half.id, year)
+      if (Number(resPostTask.code) === 200) {
+        active.value = 1
+        carousel.value.setActiveItem('step2')
+        const resAllTask = await reqGetTaskList()
+        if (Number(resAllTask.code) === 200) {
+          const data = JSON.parse(resAllTask.data)
+          const task = Array.prototype.find.call(data, item => {
+            return item.fields.name === form1.name
+          })
+          task_id.value = Number(task.pk)
+          active.value = 1 // 步骤条进行到1
+          carousel.value.setActiveItem('step2') // 轮播图进行到第二步
+        } else {
+          ElMessage.error('获取任务pk值失败')
+        }
+      } else {
+        ElMessage.error('上传体测任务基本信息失败')
+      }
+      loading.value = false
+    }
+  })
+}
+
+/* 第二步: 上传学生名单 */
+const submitStusInfo = async function () {
+  if (file.value.files.length === 0) {
+    ElMessage.error('必须上传文件参与学生名单才能进行下一步')
+    return
+  } else {
+    loading.value = true
+    let f = new FormData()
+    f.append('task_id', Number(task_id.value))
+    f.append('file', file.value.files[0])
+    const resPostStusInfo = await reqPostStusInfo(f)
+    if (Number(resPostStusInfo.code) === 200) {
+      // 获取教师名单
+      const resAllTeachers = await reqGetAllTeachers()
+      if (Number(resAllTeachers.code) === 200) {
+        const data = JSON.parse(resAllTeachers.data)
+        teacherOptions.value = data
+        active.value = 2 // 步骤条进行到1
+        carousel.value.setActiveItem('step3') // 轮播图进行到第二步
+      } else {
+        console.log(resAllTeachers)
+        if (resAllTeachers.response.status === 401) {
+          $router.replace({ path: '/login_register' })
+        }
+      }
+    }
+    loading.value = false
+  }
+}
+
+/* 第三步: 提交体测任务 */
+const addTask = async function () {
+  const resPostTeachers = await reqPostTeachers(Number(task_id.value), form1.teachers)
+  if (Number(resPostTeachers.code) === 200) {
+    ElMessage({
+      type: 'success',
+      message: '添加体测任务成功',
+    })
+    $router.push({ name: 'taskList' })
+  } else {
+    ElMessage.error(`code:${resPostTeachers.code},msg:${resPostTeachers.msg}`)
+    loading = false
+  }
 }
 
 /* 文件变化 */
@@ -240,6 +302,8 @@ const change = function () {
       filename.value = ''
       return
     }
+
+    filename.value = file.value.files[0].name
     console.log(file.value.files[0])
   }
 }

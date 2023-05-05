@@ -20,6 +20,10 @@
     <el-table-column prop="fields.begin_time" label="起始时间" />
     <el-table-column prop="fields.end_time" label="终止时间" />
     <el-table-column prop="fields.half" label="春/秋"></el-table-column>
+    <el-table-column label="操作">
+      <el-button type="warning" link size="small">编辑</el-button>
+      <el-button type="default" link size="small">查看</el-button>
+    </el-table-column>
   </el-table>
   <div class="pagination-container">
     <el-pagination
