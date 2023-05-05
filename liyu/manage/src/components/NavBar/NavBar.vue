@@ -1,14 +1,14 @@
 <template>
-  <el-menu
-    :default-active="activeIndex"
-    class="el-menu-vertical-demo nav-bar-content"
-    router
-  >
+  <el-menu :default-active="activeIndex" class="el-menu-vertical-demo nav-bar-content" router>
     <el-menu-item index="1" v-if="Number(auth) === 3">
       <el-icon><Document /></el-icon>
       <span>体测成绩</span>
     </el-menu-item>
-    <el-menu-item index="/manage/admin/tasklist">
+    <el-menu-item index="/manage/admin/tasklist" v-show="auth === 1">
+      <el-icon><Tickets /></el-icon>
+      <span>体测任务</span>
+    </el-menu-item>
+    <el-menu-item index="/manage/teacher/tasklist" v-show="auth === 2">
       <el-icon><Tickets /></el-icon>
       <span>体测任务</span>
     </el-menu-item>
@@ -51,7 +51,15 @@ const $route = useRoute()
 const showChildrenMenu = ref(false)
 // 1.检查当前用户权限
 import { chkAuth } from '@/utils/index.js'
+const taskListRoute = ref('')
+
 const auth = ref(chkAuth(localStorage.getItem('auth')))
+console.log(auth.value)
+if (auth === 1) {
+  taskListRoute.value = '/manage/admin/tasklist'
+} else if (auth === 2) {
+  taskListRoute.value = '/manage/teacher/tasklist'
+}
 const data = ref([
   { label: '体测成绩' },
   { label: '评分标准' },
@@ -63,7 +71,6 @@ const data = ref([
 
 /* 默认路由 */
 const activeIndex = ref($route.path)
-
 </script>
 
 <style scoped lang="scss">

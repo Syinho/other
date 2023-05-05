@@ -22,9 +22,19 @@ router.beforeEach((to, from) => {
   }
   // 3.检查路由是否包含/admin/
   let reg_admin = /admin/g
-  if (reg_admin.test(to.fullPath)) {
+  if (reg_admin.test(to.path)) {
     // 1.2 包含的话检查auth
     if (Number(auth) === 1) {
+      return true
+    } else {
+      return { name: 'blank' }
+    }
+  }
+
+  // 4.检查路由是否包含/teacher
+  let reg_teacher = /teacher/g
+  if (reg_teacher.test(to.path)) {
+    if (Number(auth) === 2) {
       return true
     } else {
       return { name: 'blank' }

@@ -95,9 +95,6 @@ let isDisabled = ref(false)
 let loading = ref(false)
 let isLogin = ref(true) // 标识当前是否是登录界面
 
-/* 删除本地的所有数据 */
-localStorage.clear()
-
 let login = function () {}
 
 let register = function () {}
@@ -114,7 +111,6 @@ onMounted(() => {
   randomStar()
 
   function randomStar() {
-    console.log(1)
     let starData = []
     for (let i = 0; i < 10; i++) {
       let randomBorder = Math.floor(Math.random() * 11 + 5) // [5,15]
@@ -178,15 +174,23 @@ onMounted(() => {
           message: '登录成功',
         })
         const data = JSON.parse(resLogin.data)[0]
+        console.log(data)
         const { name, token, auth } = data.fields
+        const { pk } = data
         localStorage.setItem('name', name)
         localStorage.setItem('token', token)
         localStorage.setItem('auth', md5(auth))
+        localStorage.setItem('pk', pk)
         loading.value = false
 
         // 管理员, 前往管理员页面
         if (Number(auth) === 1) {
           $router.push('/manage/admin/tasklist')
+        }
+
+        // 教师, 前往教师页面
+        if (Number(auth) === 2) {
+          $router.push('/manage/teacher/tasklist')
         }
       } else {
         loading.value = false

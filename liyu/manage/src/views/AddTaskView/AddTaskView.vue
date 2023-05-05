@@ -185,7 +185,7 @@ const onSubmit = function () {
                     type: 'success',
                     message: '添加体测任务成功',
                   })
-                  $router.push({ name: 'taskList' })
+                  $router.push({ path: '/manage/admin/tasklist' })
                 } else {
                   ElMessage.error(`code:${resPostTask.code},msg:${resPostTask.msg}`)
                   loading = false
