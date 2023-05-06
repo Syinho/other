@@ -36,7 +36,7 @@
       <el-icon><Notebook /></el-icon>
       <span>评分标准</span>
     </el-menu-item>
-    <el-menu-item index="5">
+    <el-menu-item index="/manage/modifypwd">
       <el-icon><Setting /></el-icon>
       <span>修改密码</span>
     </el-menu-item>

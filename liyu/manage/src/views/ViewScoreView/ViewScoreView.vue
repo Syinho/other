@@ -1,26 +1,107 @@
 <template>
-  <div>
-    <h2 :style="{ marginBottom: '10px' }">查看体测成绩</h2>
-  </div>
+    <div>
+        <h2 :style="{ marginBottom: '10px' }">查看体测成绩</h2>
+        <el-table
+            :data="tableData"
+            border
+            style="width: 100%"
+            max-height="calc(80vh - 120px)"
+            :row-key="row => row.pk"
+            v-loading="loading"
+        >
+            <el-table-column label="我参与的体测任务" prop="fields.task.name"></el-table-column>
+            <el-table-column label="操作">
+                <template #default="scope">
+                    <el-button link size="small" type="primary" @click="view(scope.row)">
+                        查看成绩
+                    </el-button>
+                </template>
+            </el-table-column>
+        </el-table>
+        <div class="pagination-container">
+            <el-pagination
+                small
+                background
+                layout="prev, pager, next"
+                :total="count"
+                class="mt-4"
+                :page-size="pageSize"
+                @current-change="switchData"
+                :current-page="currentPage"
+            />
+        </div>
+    </div>
 </template>
 
 <script setup>
 import { ref } from 'vue'
 import { reqGetScore } from '@/ajax/api.js'
+import { useRouter } from 'vue-router'
+const $router = useRouter()
+
+/* 数据 */
+const tableData = ref([])
+const totalData = ref([])
+const loading = ref(false)
+/* 分页数据 */
+let count = ref(0) // 表单数据总数
+let pageSize = ref(10) // 限定每页显示20个
+let currentPage = ref(1) // 当前页默认为1
 
 /* 1.获取学生自己的uid */
-const uid = ref(localStorage.getItem('student_uidx'))
+const uid = ref(localStorage.getItem('uid'))
 
 /* 2.根据学生自己的uid发起请求自己的成绩 */
 const getScore = async function () {
-  if (uid) {
-    const resViewScore = await reqGetScore(uid)
-    console.log(resViewScore)
-  } else {
-    ElMessage.error('你UID呢?')
-  }
+    loading.value = true
+
+    if (uid.value) {
+        const resViewScore = await reqGetScore(uid.value)
+        const data = JSON.parse(resViewScore.data)
+        console.log(data)
+        totalData.value = data
+        count.value = data.length
+        sliceDataByCurrentPage()
+    } else {
+        ElMessage.error('你UID呢?')
+    }
+    loading.value = false
 }
 getScore()
+
+/* 查看成绩 */
+const view = function (data) {
+    localStorage.setItem('score', JSON.stringify(data))
+    $router.push({ name: 'viewDetailScore' })
+}
+
+/* 分页管理 */
+// 根据当前pagination分割数据
+function sliceDataByCurrentPage() {
+    let startIdx = pageSize.value * (currentPage.value - 1)
+    let endIdx = pageSize.value * currentPage.value
+    if (endIdx > count.value) {
+        endIdx = count.value
+    }
+    tableData.value = totalData.value.slice(startIdx, endIdx)
+}
+
+/* 切换分页按钮, 切换显示数据  */
+const switchData = function (pageNum) {
+    currentPage.value = pageNum
+    sliceDataByCurrentPage()
+}
 </script>
 
-<style scoped lang="scss"></style>
+<style scoped lang="scss">
+.pagination-container {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ebeef5;
+    border-top: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+}
+</style>
