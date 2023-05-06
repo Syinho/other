@@ -40,6 +40,16 @@ router.beforeEach((to, from) => {
       return { name: 'blank' }
     }
   }
+
+  /* 5.检查路由是否包含/student */
+  let reg_student = /student/g
+  if (reg_student.test(to.path)) {
+    if (Number(auth) === 3) {
+      return true
+    } else {
+      return { name: 'blank' }
+    }
+  }
   return true
 })
 

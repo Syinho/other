@@ -1,6 +1,6 @@
 <template>
   <el-menu :default-active="activeIndex" class="el-menu-vertical-demo nav-bar-content" router>
-    <el-menu-item index="1" v-if="Number(auth) === 3">
+    <el-menu-item index="/manage/student/viewscore" v-if="Number(auth) === 3">
       <el-icon><Document /></el-icon>
       <span>体测成绩</span>
     </el-menu-item>

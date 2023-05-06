@@ -111,3 +111,11 @@ export const reqPutStusScore = (task_id, teacher_id, score_list) =>
     })
     .then(response => response.data)
     .catch(err => err)
+
+/* 5.学生管理页面 */
+// 5.1 根据uid查询自己的成绩
+export const reqGetScore = uid =>
+  instance
+    .get('/scoreonstudent', { params: { uid } })
+    .then(response => response.data)
+    .catch(err => err)

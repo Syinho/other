@@ -192,6 +192,12 @@ onMounted(() => {
         if (Number(auth) === 2) {
           $router.push('/manage/teacher/tasklist')
         }
+
+        // 学生, 前往学生页面
+        if (Number(auth) === 3) {
+          localStorage.setItem('student_uid', data.fields.uid)
+          $router.push('/manage/student/viewscore')
+        }
       } else {
         loading.value = false
       }
