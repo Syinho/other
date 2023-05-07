@@ -44,7 +44,13 @@
                     >
                         录入成绩
                     </el-button>
-                    <el-button type="warning" link size="small" @click="edit(scope.row)" v-if="auth===1">
+                    <el-button
+                        type="warning"
+                        link
+                        size="small"
+                        @click="edit(scope.row)"
+                        v-if="auth === 1"
+                    >
                         编辑
                     </el-button>
                     <el-button type="default" link size="small" @click="view(scope.row)">
@@ -153,7 +159,9 @@ const getAllTaskList = async function () {
 getAllTaskList()
 
 /* 修改按钮 */
-const edit = function () {}
+const edit = function (data) {
+    $router.push('/manage/admin/edittask/' + data.pk)
+}
 
 /* 查看按钮 */
 const view = function (data) {

@@ -47,6 +47,10 @@ export default [
                         path: 'usermanage',
                         redirect: '/manage/admin/teachermanage',
                     },
+                    {
+                        path:'edittask/:id',
+                        component:()=>import('@/views/AddTaskView1/AddTaskView1.vue')
+                    },
                     // 学生管理页面
                     {
                         path: 'studentmanage',
@@ -76,6 +80,12 @@ export default [
                     {
                         path: 'addteacher',
                         component: () => import('@/views/AddTeacherView/AddTeacherView.vue'),
+                    },
+                    // 修改体测标准
+                    {
+                        path: 'updatescoringstandard',
+                        component: () =>
+                            import('@/views/updateScoringStandard/updateScoringStandard.vue'),
                     },
                 ],
             },
