@@ -23,10 +23,9 @@
         </div>
         <el-table
             :data="tableData"
-            style="width: 100%"
+            style="width: 98%"
             v-loading="loading"
             border
-            max-height="calc(100vh - 250px)"
             :row-key="row => row.pk"
             :row-class-name="tableRowClassName"
         >

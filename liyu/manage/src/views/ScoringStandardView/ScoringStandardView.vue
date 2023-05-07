@@ -56,7 +56,6 @@
             style="width: 100%"
             v-loading="loading"
             border
-            max-height="50vh"
             :row-key="row => row.id"
             :span-method="objectSpanMethod"
         >
@@ -89,8 +88,8 @@ const keyOptions = ref([
     { name: '坐位体前屈', value: 'flexion' },
     { name: '8000米跑', value: 'run800' },
     { name: '1000米跑', value: 'run1000' },
-    { name: '仰卧起坐', value: 'adbominal curl' },
-    { name: '引体向上', value: 'pull up' },
+    { name: '仰卧起坐', value: 'adbominal_curl' },
+    { name: '引体向上', value: 'pull_up' },
 ])
 const genderOptions = ref([
     { name: '男性', value: 'male' },
