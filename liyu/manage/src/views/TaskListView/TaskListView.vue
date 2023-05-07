@@ -1,15 +1,26 @@
 <template>
     <div class="task-list">
         <h2 :style="{ marginBottom: '10px' }">体测任务</h2>
-        <el-button
-            type="primary"
-            :style="{ marginBottom: '10px' }"
-            @click="$router.push('/manage/admin/addTask1')"
-            v-show="auth === 1"
-        >
-            <el-icon class="el-icon--left"><Plus /></el-icon>
-            添加任务
-        </el-button>
+        <div :style="{ marginBottom: '10px' }" class="header">
+            <el-button
+                type="primary"
+                @click="$router.push('/manage/admin/addTask1')"
+                v-if="auth === 1"
+            >
+                <el-icon class="el-icon--left">
+                    <Plus />
+                </el-icon>
+                添加任务
+            </el-button>
+            <ul class="color-tag">
+                <li v-for="(item, index) in colorTag" :key="index">
+                    <div>
+                        <span :style="{ color: item.color }">{{ item.name }}</span>
+                        <div :style="{ background: item.color }"></div>
+                    </div>
+                </li>
+            </ul>
+        </div>
         <el-table
             :data="tableData"
             style="width: 100%"
@@ -34,7 +45,7 @@
                     >
                         录入成绩
                     </el-button>
-                    <el-button type="warning" link size="small" @click="edit(scope.row)">
+                    <el-button type="warning" link size="small" @click="edit(scope.row)" v-if="auth===1">
                         编辑
                     </el-button>
                     <el-button type="default" link size="small" @click="view(scope.row)">
@@ -68,6 +79,13 @@ const $router = useRouter()
 const tableData = ref([])
 const totalData = ref([])
 const loading = ref(false)
+
+const colorTag = [
+    { name: '发布中', color: '#E6A23C' },
+    { name: '进行中', color: '#F56C6C' },
+    { name: '已结束', color: '#909399' },
+    { name: '未开始', color: '#67C23A' },
+]
 
 // 1.检查当前用户权限
 import { chkAuth } from '@/utils/index.js'
@@ -107,11 +125,13 @@ const getAllTaskList = async function () {
         // 获取全部的教师数据
         const resGetAllTeachers = await reqGetAllTeachers()
         if (Number(resGetAllTeachers.code) === 200) {
-            const tea_id = localStorage.getItem('pk')
+            const teacher_uid = localStorage.getItem('uid')
             const data = JSON.parse(resGetAllTeachers.data)
+            console.log(data)
             const teacher = Array.prototype.find.call(data, item => {
-                return Number(item.fields.user) === Number(tea_id)
+                return Number(item.fields.uid) === Number(teacher_uid)
             })
+
             const { pk } = teacher
             localStorage.setItem('teacher_pk', pk)
             resTaskList = await reqGetTaskListByTeacherId(pk)
@@ -148,40 +168,27 @@ const logScore = function (data) {
 
 /* 给表单设置状态 */
 const tableRowClassName = function ({ row }) {
-    if (Number(row.fields.status) === 1) {
-        return 'success-row'
-    } else if (row.fields.status === 2) {
-        return 'warning-row'
-    } else if (row.fields.status === 3) {
-        return 'danger-row'
-    } else {
-        return ''
+    let timeStamp_end = new Date(row.fields.endTime).getTime()
+    let timeStamp_begin = new Date(row.fields.begin_time).getTime()
+    // 发布中
+    if (Number(row.fields.status) !== 1) {
+        return 'publishing-row'
+    }
+    // 未开始
+    else if (Number(timeStamp_begin) > Date.now()) {
+        return 'unbegin-row'
+    }
+    // 已结束
+    else if (Number(timeStamp_end) < Date.now()) {
+        return 'end-row'
+    }
+    // 进行中
+    else if (Number(timeStamp_begin) <= Date.now() && Number(timeStamp_end) >= Date.now()) {
+        return 'progress-row'
     }
 }
 </script>
 
 <style scoped lang="scss">
-.pagination-container {
-    width: 100%;
-    height: 50px;
-    border: 1px solid #ebeef5;
-    border-top: 0;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    padding-right: 15px;
-}
-.task-list {
-    & :deep(.el-table .warning-row) {
-        background: #e6a23c;
-    }
-
-    & :deep(.el-table .success-row) {
-        background: rgba(103, 194, 58, 0.3);
-    }
-
-    & :deep(.el-table .danger-row) {
-        background: #f56c6c;
-    }
-}
+@import './TaskListView.scss';
 </style>

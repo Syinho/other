@@ -1,0 +1,56 @@
+.pagination-container {
+    width: 100%;
+    height: 50px;
+    border: 1px solid #ebeef5;
+    border-top: 0;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding-right: 15px;
+}
+.task-list {
+    // 发布中
+    & :deep(.el-table .publishing-row) {
+        background: rgba(230, 162, 60, 0.3);
+    }
+    // 进行中
+    & :deep(.el-table .progress-row) {
+        background: rgba(245, 108, 108, 0.3);
+    }
+    // 未开始
+    & :deep(.el-table .unbegin-row) {
+        background: rgba(103, 194, 58, 0.3);
+    }
+    // 已结束
+    & :deep(.el-table .end-row) {
+        background: rgba(144, 147, 153, 0.3);
+    }
+}
+
+.header {
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    .color-tag {
+        height: 100%;
+        margin-left: 20px;
+        & > li {
+            display: inline-block;
+            width: 150px;
+            font-size: 12px;
+            & > div {
+                width: 150px;
+                height: 40px;
+                display: flex;
+                justify-content: flex-start;
+                align-items: center;
+                & > div {
+                    width: 30px;
+                    height: 10px;
+                    border-radius: 15px;
+                    margin-left: 15px;
+                }
+            }
+        }
+    }
+}

@@ -212,6 +212,7 @@ onMounted(() => {
                     $router.push('/manage/student/viewscore')
                 }
             } else {
+                ElMessage.error(resLogin.msg ? resLogin.msg : '登录失败')
                 loading.value = false
             }
         } else {

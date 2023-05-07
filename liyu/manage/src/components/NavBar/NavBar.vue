@@ -4,11 +4,11 @@
       <el-icon><Document /></el-icon>
       <span>体测成绩</span>
     </el-menu-item>
-    <el-menu-item index="/manage/admin/tasklist" v-show="auth === 1">
+    <el-menu-item index="/manage/admin/tasklist" v-if="auth === 1">
       <el-icon><Tickets /></el-icon>
       <span>体测任务</span>
     </el-menu-item>
-    <el-menu-item index="/manage/teacher/tasklist" v-show="auth === 2">
+    <el-menu-item index="/manage/teacher/tasklist" v-if="auth === 2">
       <el-icon><Tickets /></el-icon>
       <span>体测任务</span>
     </el-menu-item>
@@ -32,7 +32,7 @@
         </el-menu-item>
       </el-menu-item-group>
     </el-sub-menu>
-    <el-menu-item index="4">
+    <el-menu-item index="/manage/scoringstandard">
       <el-icon><Notebook /></el-icon>
       <span>评分标准</span>
     </el-menu-item>

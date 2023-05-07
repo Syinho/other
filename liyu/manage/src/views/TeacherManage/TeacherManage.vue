@@ -9,9 +9,8 @@
     添加教师
   </el-button>
   <el-table :data="tableData" style="width: 100%" v-loading="loading" border stripe>
-    <el-table-column prop="fields.uid" label="教师编号" width="180"></el-table-column>
-    <el-table-column prop="fields.name" label="教师" width="180"></el-table-column>
-    <el-table-column prop="fields.user" label="user"></el-table-column>
+    <el-table-column prop="fields.uid" label="职工号"></el-table-column>
+    <el-table-column prop="fields.name" label="教师姓名"></el-table-column>
   </el-table>
 </template>
 

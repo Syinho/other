@@ -79,8 +79,8 @@ export const reqPostNewTeacher = (uid, name) =>
         .then(response => response.data)
         .catch(err => err)
 
-/* 4 教师页面 */
-// 4.1 根据任务id与教师id获取学生数据
+/* 3 教师页面 */
+// 3.1 根据任务id与教师id获取学生数据
 
 export const reqGetStusList = (teacher_id, task_id, page_num) =>
     instance
@@ -90,7 +90,7 @@ export const reqGetStusList = (teacher_id, task_id, page_num) =>
         .then(response => response.data)
         .catch(err => err)
 
-// 4.2 根据教师id获取到其负责的体测任务
+// 3.2 根据教师id获取到其负责的体测任务
 export const reqGetTaskListByTeacherId = teacher_id =>
     instance('/taskbyteacher', {
         params: {
@@ -100,7 +100,7 @@ export const reqGetTaskListByTeacherId = teacher_id =>
         .then(response => response.data)
         .catch(err => err)
 
-// 4.3 教师录入学生成绩
+// 3.3 教师录入学生成绩
 export const reqPutStusScore = (task_id, teacher_id, score_list) =>
     instance
         .put('/studentfromtaskbyteacher', {
@@ -113,13 +113,20 @@ export const reqPutStusScore = (task_id, teacher_id, score_list) =>
         .then(response => response.data)
         .catch(err => err)
 
-// 4.4 教师上传学生成绩
+// 3.4 教师上传学生成绩
 export const reqPostStusScore = f =>
     instance({
         method: 'post',
         url: '/uploadstudentscore',
         data: f,
     })
+        .then(response => response.data)
+        .catch(err => err)
+
+// 3.5 教师获取学生成绩表单文件名
+export const reqGetDownload = (task_id, teacher_id) =>
+    instance
+        .get('/exportstudentfromtaskbyteacher', { params: { task_id, teacher_id } })
         .then(response => response.data)
         .catch(err => err)
 
@@ -139,6 +146,18 @@ export const reqPutPwd = (uid, password) =>
             data: {
                 uid,
                 password,
+            },
+        })
+        .then(response => response.data)
+        .catch(err => err)
+
+// 6.2 获取评分标准
+export const reqGetScoringStandard = (key, grade) =>
+    instance
+        .get('/scorestandard', {
+            params: {
+                key,
+                grade,
             },
         })
         .then(response => response.data)

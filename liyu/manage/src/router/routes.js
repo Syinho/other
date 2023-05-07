@@ -101,6 +101,12 @@ export default [
                 path: 'modifypwd',
                 component: () => import('@/views/ModifyPWDView/ModifyPWDView.vue'),
             },
+            // 评分标准
+            {
+                path: 'scoringstandard',
+                name: 'scoringStandard',
+                component: () => import('@/views/ScoringStandardView/ScoringStandardView.vue'),
+            },
         ],
     },
     {
