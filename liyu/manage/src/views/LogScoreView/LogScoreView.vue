@@ -455,11 +455,6 @@ const blur = async function (scope) {
             }else{
                 ElMessage.error('数据不符合规定')
             }
-            // const val = Number(scope.row.fields[scope.column.property].value)
-            // let m = Math.floor(val / 60)
-            // let s = val % 60
-            // scope.row.fields[prop].value = `${m}'${s}`
-            
         }
     } else {
         score_list = [{ student_id: stu_id, [prop]: val }]

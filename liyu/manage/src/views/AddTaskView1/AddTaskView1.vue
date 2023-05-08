@@ -133,6 +133,7 @@ import {
     reqPostTeachers,
     reqGetTaskList,
     reqGetTask,
+    reqUpdateTask,
 } from '@/ajax/api.js'
 import { ref, reactive, watch, nextTick } from 'vue'
 const $router = useRouter()
@@ -147,6 +148,7 @@ const form1 = reactive({
     end_time: '',
     half: { name: '春', value: 1 },
     teachers: [],
+    year: '',
 })
 let teacherOptions = ref([]) // 储存全部的教师数据
 const seasonOptions = ref([
@@ -186,12 +188,13 @@ const rules = reactive({
 
 /* 判断pk值与其status */
 const chkRoute = async function () {
-    loading.value = true
     let id = $route.params.id
     if (!id) {
         console.log('没有id')
     } else {
         // 检查status
+        loading.value = true
+
         const res = await reqGetTask(id)
         if (res.code === 200) {
             const data = JSON.parse(res.data)[0]
@@ -212,6 +215,7 @@ const chkRoute = async function () {
                 //     value: Number(data.fields.half),
                 //     name: Number(data.fields.half) === 1 ? '春' : '秋',
                 //   }
+                form1.year = data.fields.year
             }
             // 任务状态未2, 代表提交了基本的任务信息, 没有提交学生的表单
             else if (Number(data.fields.status) === 2) {
@@ -235,8 +239,8 @@ const chkRoute = async function () {
                 }
             }
         }
+        loading.value = false
     }
-    loading.value = false
 }
 chkRoute()
 /* 监听起始时间 start */
@@ -358,7 +362,37 @@ const addTask = async function () {
 }
 
 /* 修改体测基本数据 */
-const modifyStusInfo = async function () {}
+const modifyStusInfo = function () {
+    console.log({
+        task_id: task_id.value,
+        name: form1.name,
+        begin_time: Number(form1.begin_time) / 1000,
+        end_time: Number(form1.end_time) / 1000,
+        year: form1.year,
+        half: form1.half.value,
+    })
+    ruleForms1.value.validate(async valid => {
+        if (valid) {
+            const res = await reqUpdateTask({
+                task_id: Number(task_id.value),
+                name: form1.name,
+                begin_time: Number(form1.begin_time) / 1000,
+                end_time: Number(form1.end_time) / 1000,
+                year: form1.year,
+                half: form1.half.value,
+            })
+            if (Number(res.code) === 200) {
+                ElMessage({
+                    type: 'success',
+                    message: '修改成功',
+                })
+                $router.push('/manage/admin/tasklist')
+            } else {
+                ElMessage.error('修改失败')
+            }
+        }
+    })
+}
 
 /* 文件变化 */
 const change = function () {

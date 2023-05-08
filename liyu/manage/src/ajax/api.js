@@ -71,6 +71,51 @@ export const reqGetTask = task_id =>
 
 // 2.7 查看任务完成情况
 
+// 2.8 获取学生列表
+export const reqGetAllStusList = () =>
+    instance
+        .get('/student')
+        .then(response => response.data)
+        .catch(err => err)
+
+// 2.9 修改学生列表
+export const reqPutStus = payload =>
+    instance
+        .put('/student', { data: { ...payload } })
+        .then(response => response.data)
+        .catch(err => err)
+
+// 2.10 修改学生账号状态
+export const reqPutStusStatus = (uid, value) =>
+    instance
+        .put('/updatestudentstatus', { data: { uid, value } })
+        .then(response => response.data)
+        .catch(err => err)
+// 2.11 修改教师列表
+export const reqPutTeacher = (uid, key, value) =>
+    instance
+        .put('/teacher', { data: { uid, key, value } })
+        .then(response => response.data)
+        .catch(err => err)
+// 2.12 修改教师状态
+export const reqPutTeacherStatus = (uid, value) =>
+    instance
+        .put('/updateteacherstatus', {
+            data: {
+                uid,
+                value,
+            },
+        })
+        .then(response => response.data)
+        .catch(err => err)
+
+// 2.13 修改任务第一阶段数据
+export const reqUpdateTask = payload =>
+    instance
+        .put('/task', { data: { ...payload } })
+        .then(response => response.data)
+        .catch(err => err)
+
 /* 3.教师账户管理 */
 // 3.1 添加新的教师
 export const reqPostNewTeacher = (uid, name) =>
