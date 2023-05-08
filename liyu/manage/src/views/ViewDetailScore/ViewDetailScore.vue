@@ -7,7 +7,7 @@
     </el-descriptions> -->
     <el-table :data="tableData" style="width: 100%" v-loading="loading" border stripe>
         <el-table-column prop="name" label="项目"></el-table-column>
-        <el-table-column prop="fields.name" label="项目组成分数"></el-table-column>
+        <el-table-column prop="part" label="项目组成分数"></el-table-column>
         <el-table-column prop="value" label="分数"></el-table-column>
     </el-table>
 </template>
@@ -32,38 +32,45 @@ const getScore = function () {
         const scoreData = JSON.parse(score)
         detail.value = scoreData
         localStorage.removeItem('score')
+        console.log(scoreData)
         // 处理数据
-        let arr = ['task', 'student', 'teacher', 'remark']
+        let arr = ['task', 'student', 'teacher']
         for (const prop in scoreData.fields) {
             if (arr.indexOf(prop) === -1) {
-                list.value.push({ key: prop, value: scoreData.fields[prop] })
+                initData.value.push({ key: prop, value: scoreData.fields[prop] })
             }
         }
-        initData.value = list.value
-        console.log(initData.value)
-        // let score_obj
-        // for (let i = 0; i < initData.value.length; i++) {
-        //     let reg = /_score/g
-        //     let item = initData.value[i]
-        //     if (reg.test(item.key)) {
-        //         let key_ = tran(item.key)
-        //         let score_obj={ name: key_, value: item.value }
-        //         if(item==='bmi_score'){
-        //            const wh_score= Array.prototype.filter.call(initData,obj=>{
-        //                 if(obj.key==='width'||obj.key==='height'){
-        //                     return true
-        //                 }
-        //             })
-        //             for(let i=0;i<wh_score;i++){
-
-        //             }
-        //         }
-        //         tableData.value.push({ name: key_, value: item.value })
-
-        //     }
-        // }
-        // tableData.value.shift()
-        // console.log(tableData.value)
+        for (let i = 0; i < initData.value.length; i++) {
+            let reg = /_score/g
+            let item = initData.value[i]
+            if (reg.test(item.key)) {
+                let key_ = tran(item.key)
+                let scoreObj = {
+                    name: key_,
+                    value: item.value,
+                    part: '',
+                }
+                console.log(item)
+                if (item.key === 'bmi_score') {
+                    scoreObj.part = `身高${scoreData.fields['height']}/体重${scoreData.fields['weight']}`
+                } else if (item.key === 'pulmonary_score') {
+                    scoreObj.part = `肺活量${scoreData.fields['pulmonary']}`
+                } else if (item.key === 'run50_score') {
+                    scoreObj.part = `${scoreData.fields['run50']}`
+                } else if (item.key === 'jump_score') {
+                    scoreObj.part = `${scoreData.fields['jump']}`
+                } else if (item.key === 'flexion_score') {
+                    scoreObj.part = `${scoreData.fields['flexion']}`
+                } else if (item.key === 'runlong_score') {
+                    scoreObj.part = `${scoreData.fields['run800']}/${scoreData.fields['run1000']}`
+                } else if (item.key === 'curlorup_score') {
+                    scoreObj.part = `${scoreData.fields['pull_up']}/${scoreData.fields['adbominal_curl']}`
+                }
+                tableData.value.push(scoreObj)
+            }
+        }
+        tableData.value.shift()
+        console.log(tableData.value)
     }
 }
 getScore()
