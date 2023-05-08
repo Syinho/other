@@ -368,17 +368,28 @@ const getStusData = async function () {
             Array.prototype.forEach.call(props, prop => {
                 let arr = ['run800', 'run1000']
                 if (arr.indexOf(prop) !== -1) {
-                    let timeStamp = Number(stu.fields[prop])
-                    let m = Math.floor((timeStamp % 3600) / 60),
-                        s = Math.floor(((timeStamp % 3600000) % 60000) / 1000),
-                        ms = (((timeStamp % 3600000) % 60000) % 1000) / 100
-                    if (m) {
-                        stu.fields[prop] = `${m}'${s}"${ms === 0 ? '' : ms}`
-                    } else if (s) {
-                        stu.fields[prop] = `${s}"${ms === 0 ? '' : ms}`
-                    } else {
-                        stu.fields[prop] = `${ms === 0 ? '' : ms}`
+                    console.log(stu.fields[prop])
+                    if(stu.fields[prop]===null){
+                        return null
                     }
+                    let timeStamp = Number(stu.fields[prop])
+                    let m=Math.floor(timeStamp/60)
+                    let s=timeStamp%60
+                    if(m>0){
+                        stu.fields[prop]=`${m}'${s}`
+                    }else{
+                        stu.fields[prop]=`${s}`
+                    }
+                    // let m = Math.floor((timeStamp % 3600) / 60),
+                    //     s = Math.floor(((timeStamp % 3600000) % 60000) / 1000),
+                    //     ms = (((timeStamp % 3600000) % 60000) % 1000) / 100
+                    // if (m) {
+                    //     stu.fields[prop] = `${m}'${s}"${ms === 0 ? '' : ms}`
+                    // } else if (s) {
+                    //     stu.fields[prop] = `${s}"${ms === 0 ? '' : ms}`
+                    // } else {
+                    //     stu.fields[prop] = `${ms === 0 ? '' : ms}`
+                    // }
                 }
                 stu.fields[prop] = { showInput: false, value: stu.fields[prop] }
             })

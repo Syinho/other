@@ -185,8 +185,7 @@ const chkRoute = async function () {
   let id = $route.params.id
   if (!id) {
     console.log('没有id')
-    return
-  }
+  }else{
   // 检查status
   const res = await reqGetTask(id)
   if (res.code === 200) {
@@ -230,6 +229,7 @@ const chkRoute = async function () {
         }
       }
     }
+  }
   }
   loading.value = false
 }
