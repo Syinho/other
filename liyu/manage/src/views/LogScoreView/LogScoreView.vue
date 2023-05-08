@@ -369,7 +369,7 @@ const getStusData = async function () {
                 let arr = ['run800', 'run1000']
                 if (arr.indexOf(prop) !== -1) {
                     let timeStamp = Number(stu.fields[prop])
-                    let m = Math.floor((timeStamp % 3600000) / 60000),
+                    let m = Math.floor((timeStamp % 3600) / 60),
                         s = Math.floor(((timeStamp % 3600000) % 60000) / 1000),
                         ms = (((timeStamp % 3600000) % 60000) % 1000) / 100
                     if (m) {

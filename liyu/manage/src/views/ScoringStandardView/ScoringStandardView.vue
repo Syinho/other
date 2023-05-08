@@ -1,7 +1,14 @@
 <template>
     <div>
         <h2 :style="{ marginBottom: '10px' }">查看体测评分标准</h2>
-        <el-button type="primary" v-if="auth === 1" :style="{ marginBottom: '10px' }" @click="$router.push('/manage/admin/updatescoringstandard')">修改评分标准</el-button>
+        <el-button
+            type="primary"
+            v-if="auth === 1"
+            :style="{ marginBottom: '10px' }"
+            @click="$router.push('/manage/admin/updatescoringstandard')"
+        >
+            修改评分标准
+        </el-button>
         <div class="select-container">
             <el-select
                 v-model="select.grade"
@@ -108,21 +115,20 @@ const getData = async function () {
         const data__ = data_[select.gender]
         console.log(data_[select.gender])
         // 处理数据
-        let arr = ['run50', 'run800', 'run1000']
+        let arr = ['run800', 'run1000']
         console.log(select.key)
         if (arr.indexOf(select.key) !== -1) {
             Array.prototype.forEach.call(data__, item => {
-                let timeStamp = Number(item.value) * 1000
-                let m = Math.floor((timeStamp % 3600000) / 60000),
-                    s = Math.floor(((timeStamp % 3600000) % 60000) / 1000),
-                    ms = (((timeStamp % 3600000) % 60000) % 1000) / 100
-                if (m) {
-                    item.value = `${m}'${s}"${ms===0?'':ms}`
-                } else if (s) {
-                    item.value = `${s}"${ms===0?'':ms}`
+                console.log(item.value)
+                let timeStamp = Number(item.value)
+                let m = Math.floor(timeStamp / 60),
+                    s = timeStamp % 60
+                if (m > 0) {
+                    item.value = `${m}'${s}`
                 } else {
-                    item.value = `${ms===0?'':ms}`
+                    item.value = s
                 }
+                
             })
         }
         Array.prototype.forEach.call(data__, (item, index) => {
