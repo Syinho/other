@@ -175,7 +175,7 @@ const logScore = function (data) {
 
 /* 给表单设置状态 */
 const tableRowClassName = function ({ row }) {
-    let timeStamp_end = new Date(row.fields.endTime).getTime()
+    let timeStamp_end = new Date(row.fields.end_time).getTime()
     let timeStamp_begin = new Date(row.fields.begin_time).getTime()
     // 发布中
     if (Number(row.fields.status) !== 1) {
