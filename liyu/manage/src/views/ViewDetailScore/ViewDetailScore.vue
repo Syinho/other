@@ -54,13 +54,15 @@ const getScore = function () {
                 if (item.key === 'bmi_score') {
                     scoreObj.part = `身高${scoreData.fields['height']}/体重${scoreData.fields['weight']}`
                 } else if (item.key === 'pulmonary_score') {
-                    scoreObj.part = `${scoreData.fields['pulmonary']}`
+                    scoreObj.part = scoreData.fields['pulmonary']
+                        ? scoreData.fields['pulmonary']
+                        : ''
                 } else if (item.key === 'run50_score') {
-                    scoreObj.part = `${scoreData.fields['run50']}`
+                    scoreObj.part = scoreData.fields['run50'] ? scoreData.fields['run50'] : ''
                 } else if (item.key === 'jump_score') {
-                    scoreObj.part = `${scoreData.fields['jump']}`
+                    scoreObj.part = scoreData.fields['jump'] ? scoreData.fields['jump'] : ''
                 } else if (item.key === 'flexion_score') {
-                    scoreObj.part = `${scoreData.fields['flexion']}`
+                    scoreObj.part = scoreData.fields['flexion'] ? scoreData.fields['flexion'] : ''
                 } else if (item.key === 'runlong_score') {
                     scoreObj.part = scoreData.fields['run800']
                         ? scoreData.fields['run800']

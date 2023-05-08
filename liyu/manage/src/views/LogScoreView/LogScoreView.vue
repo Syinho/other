@@ -400,6 +400,9 @@ const hiddenInputs = function () {
 }
 
 const dbclick = function (row, column, cell, event) {
+    console.log(event.target.querySelector('input'))
+    event.target.querySelector('input').focus()
+    console.log(Object.getOwnPropertyNames(event.target.querySelector('input')))
     if (row.fields[column.property] === undefined) {
         return hiddenInputs()
     }
@@ -436,16 +439,21 @@ const blur = async function (scope) {
     const stu_id = scope.row.fields.student.pk
     const prop = scope.column.property
     const val = scope.row.fields[prop].value
+    let score_list = [{ student_id: stu_id, [prop]: '' }]
     let arr = ['run800', 'run1000']
-    console.log(scope.column.property)
-    if (arr.indexOf(scope.column.property)!==-1) {
-        if(scope.row.fields[scope.column.property].value===null){
-            // let 
-        }else{
-
+    if (arr.indexOf(scope.column.property) !== -1) {
+        if (scope.row.fields[scope.column.property].value === null) {
+            return
+        } else {
+            const val = Number(scope.row.fields[scope.column.property].value)
+            let m = Math.floor(val / 60)
+            let s = val % 60
+            scope.row.fields[prop].value = `${m}'${s}`
+            score_list = [{ student_id: stu_id, [prop]: val }]
         }
+    } else {
+        score_list = [{ student_id: stu_id, [prop]: val }]
     }
-    const score_list = [{ student_id: stu_id, [prop]: val }]
     const res = await reqPutStusScore(task_id, teacher_pk, score_list)
     console.log(res)
 }
