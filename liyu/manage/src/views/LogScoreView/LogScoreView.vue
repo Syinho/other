@@ -370,14 +370,15 @@ const getStusData = async function () {
                 if (arr.indexOf(prop) !== -1) {
                     if (stu.fields[prop] === null) {
                         stu.fields[prop] = null
-                    }
-                    let timeStamp = Number(stu.fields[prop])
-                    let m = Math.floor(timeStamp / 60)
-                    let s = timeStamp % 60
-                    if (m > 0) {
-                        stu.fields[prop] = `${m}'${s}`
                     } else {
-                        stu.fields[prop] = `${s}`
+                        let timeStamp = Number(stu.fields[prop])
+                        let m = Math.floor(timeStamp / 60)
+                        let s = timeStamp % 60
+                        if (m > 0) {
+                            stu.fields[prop] = `${m}'${s}`
+                        } else {
+                            stu.fields[prop] = `${s}`
+                        }
                     }
                 }
                 stu.fields[prop] = { showInput: false, value: stu.fields[prop] }
@@ -415,7 +416,7 @@ const dbclick = function (row, column, cell, event) {
             } else {
                 let m = val.slice(0, String(val).indexOf("'"))
                 let s = val.slice(String(val).indexOf("'") + 1)
-                row.fields[column.property].value=Number(m)*60+Number(s)
+                row.fields[column.property].value = Number(m) * 60 + Number(s)
             }
         }
     }
@@ -435,10 +436,11 @@ const blur = async function (scope) {
     const stu_id = scope.row.fields.student.pk
     const prop = scope.column.property
     const val = scope.row.fields[prop].value
-    let arr=['run800','run1000']
-    if(arr.indexOf(scope.column.property)){
-    console.log(scope.row.fields[scope.column.property])
-
+    let arr = ['run800', 'run1000']
+    console.log(scope.column.property)
+    if (arr.indexOf(scope.column.property)) {
+        console.log(1)
+        console.log(scope.row.fields[scope.column.property])
     }
     const score_list = [{ student_id: stu_id, [prop]: val }]
     const res = await reqPutStusScore(task_id, teacher_pk, score_list)
