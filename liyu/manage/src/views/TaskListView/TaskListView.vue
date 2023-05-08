@@ -158,7 +158,7 @@ const getAllTaskList = async function () {
                 data[i].fields.year +
                 '年' +
                 (Number(data[i].fields.half) === 1 ? '春' : '秋') +
-                '季学期'
+                '期'
         }
         totalData.value = data
         count.value = totalData.value.length

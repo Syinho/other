@@ -435,6 +435,11 @@ const blur = async function (scope) {
     const stu_id = scope.row.fields.student.pk
     const prop = scope.column.property
     const val = scope.row.fields[prop].value
+    let arr=['run800','run1000']
+    if(arr.indexOf(scope.column.property)){
+    console.log(scope.row.fields[scope.column.property])
+
+    }
     const score_list = [{ student_id: stu_id, [prop]: val }]
     const res = await reqPutStusScore(task_id, teacher_pk, score_list)
     console.log(res)
