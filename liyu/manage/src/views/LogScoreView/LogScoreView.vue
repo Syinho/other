@@ -411,17 +411,17 @@ const dbclick = function (row, column, cell, event) {
     } else {
         hiddenInputs()
         row.fields[column.property].showInput = true
-        let arr = ['run800', 'run1000']
-        if (arr.indexOf(column.property) !== -1) {
-            const val = row.fields[column.property].value
-            if (!val) {
-                return
-            } else {
-                let m = val.slice(0, String(val).indexOf("'"))
-                let s = val.slice(String(val).indexOf("'") + 1)
-                row.fields[column.property].value = Number(m) * 60 + Number(s)
-            }
-        }
+        // let arr = ['run800', 'run1000']
+        // if (arr.indexOf(column.property) !== -1) {
+        //     const val = row.fields[column.property].value
+        //     if (!val) {
+        //         return
+        //     } else {
+        //         let m = val.slice(0, String(val).indexOf("'"))
+        //         let s = val.slice(String(val).indexOf("'") + 1)
+        //         row.fields[column.property].value = Number(m) * 60 + Number(s)
+        //     }
+        // }
     }
 }
 
@@ -442,14 +442,24 @@ const blur = async function (scope) {
     let score_list = [{ student_id: stu_id, [prop]: '' }]
     let arr = ['run800', 'run1000']
     if (arr.indexOf(scope.column.property) !== -1) {
-        if (scope.row.fields[scope.column.property].value === null) {
+        if (!scope.row.fields[scope.column.property].value) {
             return
         } else {
-            const val = Number(scope.row.fields[scope.column.property].value)
-            let m = Math.floor(val / 60)
-            let s = val % 60
-            scope.row.fields[prop].value = `${m}'${s}`
-            score_list = [{ student_id: stu_id, [prop]: val }]
+            let val_ = scope.row.fields[scope.column.property].value
+            let reg = /^(\d+)'(\d+)*$/
+            if (reg.test(val_)) {
+                let m = String(val_).slice(0, String(val_).indexOf("'"))
+                let s = String(val_).slice(String(val_).indexOf("'") + 1)
+                console.log(m, s)
+                score_list = [{ student_id: stu_id, [prop]: Number(m) * 60 + Number(s) }]
+            }else{
+                ElMessage.error('数据不符合规定')
+            }
+            // const val = Number(scope.row.fields[scope.column.property].value)
+            // let m = Math.floor(val / 60)
+            // let s = val % 60
+            // scope.row.fields[prop].value = `${m}'${s}`
+            
         }
     } else {
         score_list = [{ student_id: stu_id, [prop]: val }]
