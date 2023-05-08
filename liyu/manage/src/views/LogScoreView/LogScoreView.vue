@@ -368,7 +368,6 @@ const getStusData = async function () {
             Array.prototype.forEach.call(props, prop => {
                 let arr = ['run800', 'run1000']
                 if (arr.indexOf(prop) !== -1) {
-                    console.log(stu.fields[prop])
                     if (stu.fields[prop] === null) {
                         stu.fields[prop] = null
                     }
@@ -380,16 +379,6 @@ const getStusData = async function () {
                     } else {
                         stu.fields[prop] = `${s}`
                     }
-                    // let m = Math.floor((timeStamp % 3600) / 60),
-                    //     s = Math.floor(((timeStamp % 3600000) % 60000) / 1000),
-                    //     ms = (((timeStamp % 3600000) % 60000) % 1000) / 100
-                    // if (m) {
-                    //     stu.fields[prop] = `${m}'${s}"${ms === 0 ? '' : ms}`
-                    // } else if (s) {
-                    //     stu.fields[prop] = `${s}"${ms === 0 ? '' : ms}`
-                    // } else {
-                    //     stu.fields[prop] = `${ms === 0 ? '' : ms}`
-                    // }
                 }
                 stu.fields[prop] = { showInput: false, value: stu.fields[prop] }
             })
@@ -425,9 +414,8 @@ const dbclick = function (row, column, cell, event) {
                 return
             } else {
                 let m = val.slice(0, String(val).indexOf("'"))
-
-                let s = val.slice(String(val).indexOf("'") + 1, val.indexOf('"'))
-                row.fields[column.property].value = Number(m) * 60 + Number(s)
+                let s = val.slice(String(val).indexOf("'") + 1)
+                row.fields[column.property].value=Number(m)*60+Number(s)
             }
         }
     }

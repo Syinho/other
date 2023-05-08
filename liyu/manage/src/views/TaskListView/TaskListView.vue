@@ -32,7 +32,7 @@
             <el-table-column prop="fields.name" label="体测任务" width="180" />
             <el-table-column prop="fields.begin_time" label="起始时间" />
             <el-table-column prop="fields.end_time" label="终止时间" />
-            <el-table-column prop="fields.half" label="春/秋"></el-table-column>
+            <el-table-column prop="fields.half" label="学期" ></el-table-column>
             <el-table-column label="操作" fixed="right" width="200" align="center">
                 <template #default="scope">
                     <el-button
@@ -53,7 +53,13 @@
                     >
                         编辑
                     </el-button>
-                    <el-button type="default" link size="small" @click="view(scope.row)" v-if="auth===1">
+                    <el-button
+                        type="default"
+                        link
+                        size="small"
+                        @click="view(scope.row)"
+                        v-if="auth === 1"
+                    >
                         查看
                     </el-button>
                 </template>
@@ -132,7 +138,6 @@ const getAllTaskList = async function () {
         if (Number(resGetAllTeachers.code) === 200) {
             const teacher_uid = localStorage.getItem('uid')
             const data = JSON.parse(resGetAllTeachers.data)
-            console.log(data)
             const teacher = Array.prototype.find.call(data, item => {
                 return Number(item.fields.uid) === Number(teacher_uid)
             })
@@ -148,7 +153,12 @@ const getAllTaskList = async function () {
         for (let i = 0; i < data.length; i++) {
             data[i].fields.begin_time = handleTime(data[i].fields.begin_time)
             data[i].fields.end_time = handleTime(data[i].fields.end_time)
-            data[i].fields.half = Number(data[i].fields.half) === 1 ? '春' : '秋'
+            console.log(data[i].fields.year)
+            data[i].fields.half =
+                data[i].fields.year +
+                '年' +
+                (Number(data[i].fields.half) === 1 ? '春' : '秋') +
+                '季学期'
         }
         totalData.value = data
         count.value = totalData.value.length
