@@ -6,9 +6,9 @@
         </el-descriptions-item>
     </el-descriptions> -->
     <el-table :data="tableData" style="width: 100%" v-loading="loading" border stripe>
-        <el-table-column prop="name" label="项目"></el-table-column>
-        <el-table-column prop="part" label="项目组成分数"></el-table-column>
-        <el-table-column prop="value" label="分数"></el-table-column>
+        <el-table-column prop="name" label="项目" align="center"></el-table-column>
+        <el-table-column prop="part" label="数据" align="center"></el-table-column>
+        <el-table-column prop="value" label="分数" align="center"></el-table-column>
     </el-table>
 </template>
 
@@ -54,7 +54,7 @@ const getScore = function () {
                 if (item.key === 'bmi_score') {
                     scoreObj.part = `身高${scoreData.fields['height']}/体重${scoreData.fields['weight']}`
                 } else if (item.key === 'pulmonary_score') {
-                    scoreObj.part = `肺活量${scoreData.fields['pulmonary']}`
+                    scoreObj.part = `${scoreData.fields['pulmonary']}`
                 } else if (item.key === 'run50_score') {
                     scoreObj.part = `${scoreData.fields['run50']}`
                 } else if (item.key === 'jump_score') {
@@ -62,9 +62,13 @@ const getScore = function () {
                 } else if (item.key === 'flexion_score') {
                     scoreObj.part = `${scoreData.fields['flexion']}`
                 } else if (item.key === 'runlong_score') {
-                    scoreObj.part = `${scoreData.fields['run800']}/${scoreData.fields['run1000']}`
+                    scoreObj.part = scoreData.fields['run800']
+                        ? scoreData.fields['run800']
+                        : scoreData.fields['run1000']
                 } else if (item.key === 'curlorup_score') {
-                    scoreObj.part = `${scoreData.fields['pull_up']}/${scoreData.fields['adbominal_curl']}`
+                    scoreObj.part = scoreData.fields['pull_up']
+                        ? scoreData.fields['pull_up']
+                        : scoreData.fields['adbominal_curl']
                 }
                 tableData.value.push(scoreObj)
             }
@@ -78,7 +82,7 @@ getScore()
 function tran(key) {
     let reg = /(\w+)_score/g
     if (reg.test(key)) {
-        return translate[RegExp.$1] + '分数'
+        return translate[RegExp.$1]
     } else {
         return translate[key]
     }
