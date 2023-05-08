@@ -3,7 +3,7 @@
         <el-container>
             <el-header height="80px" class="header-container">
                 <div class="header">
-                    <h1>后台管理系统</h1>
+                    <h1>高校学生体测数据管理系统</h1>
                     <el-popover placement="top-start" :width="100" trigger="hover">
                         <template #reference>
                             <div class="user-info">

@@ -25,7 +25,8 @@
                         <div class="meteor"></div>
                         <div class="meteor"></div>
                     </div>
-                    <p id="title">MANAGE</p>
+                    <p id="title">高校学生</p>
+                    <p id="title">体测数据管理系统</p>
                 </div>
                 <div id="login">
                     <header>
@@ -39,7 +40,7 @@
                                     type="text"
                                     name=""
                                     id="user"
-                                    placeholder="UID"
+                                    placeholder="学工号"
                                     v-model="form.uid"
                                 />
                             </div>
@@ -50,6 +51,7 @@
                                     id="pwd"
                                     placeholder="密码"
                                     v-model="form.password"
+                                    @keyup.enter.native="login"
                                 />
                             </div>
                             <div class="register-input" :class="isLogin ? 'inactive' : 'active'">

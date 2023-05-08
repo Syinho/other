@@ -9,7 +9,10 @@
             :row-key="row => row.pk"
             v-loading="loading"
         >
-            <el-table-column label="我参与的体测任务" prop="fields.task.name"></el-table-column>
+            <el-table-column label="任务名称" prop="fields.task.name"></el-table-column>
+            <el-table-column label="学期" prop="fields.task.half"></el-table-column>
+            <el-table-column label="开始时间" prop="fields.task.begin_time"></el-table-column>
+            <el-table-column label="结束时间" prop="fields.task.end_time"></el-table-column>
             <el-table-column label="操作">
                 <template #default="scope">
                     <el-button link size="small" type="primary" @click="view(scope.row)">
@@ -37,6 +40,7 @@
 import { ref } from 'vue'
 import { reqGetScore } from '@/ajax/api.js'
 import { useRouter } from 'vue-router'
+import {handleTime} from '@/utils/index.js'
 const $router = useRouter()
 
 /* 数据 */
@@ -59,6 +63,17 @@ const getScore = async function () {
         const resViewScore = await reqGetScore(uid.value)
         const data = JSON.parse(resViewScore.data)
         console.log(data)
+        // 数据处理
+        Array.prototype.forEach.call(data, item => {
+            if (Number(item.fields.task.half) === 1) {
+                item.fields.task.half = '春'
+            } else if (Number(item.fields.task.half) === 2) {
+                item.fields.task.half = '秋'
+            }
+            item.fields.task.begin_time=handleTime(Number(item.fields.task.begin_time)*1000)
+            item.fields.task.end_time=handleTime(Number(item.fields.task.end_time)*1000)
+        })
+
         totalData.value = data
         count.value = data.length
         sliceDataByCurrentPage()
@@ -71,6 +86,7 @@ getScore()
 
 /* 查看成绩 */
 const view = function (data) {
+    console.log(data)
     localStorage.setItem('score', JSON.stringify(data))
     $router.push({ name: 'viewDetailScore' })
 }

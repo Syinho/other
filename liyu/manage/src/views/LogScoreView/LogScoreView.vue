@@ -366,6 +366,20 @@ const getStusData = async function () {
                 stu.fields.student.sex = '女'
             }
             Array.prototype.forEach.call(props, prop => {
+                let arr = ['run800', 'run1000']
+                if (arr.indexOf(prop) !== -1) {
+                    let timeStamp = Number(stu.fields[prop])
+                    let m = Math.floor((timeStamp % 3600000) / 60000),
+                        s = Math.floor(((timeStamp % 3600000) % 60000) / 1000),
+                        ms = (((timeStamp % 3600000) % 60000) % 1000) / 100
+                    if (m) {
+                        stu.fields[prop] = `${m}'${s}"${ms === 0 ? '' : ms}`
+                    } else if (s) {
+                        stu.fields[prop] = `${s}"${ms === 0 ? '' : ms}`
+                    } else {
+                        stu.fields[prop] = `${ms === 0 ? '' : ms}`
+                    }
+                }
                 stu.fields[prop] = { showInput: false, value: stu.fields[prop] }
             })
         })
@@ -386,6 +400,7 @@ const hiddenInputs = function () {
 
 const dbclick = function (row, column, cell, event) {
     if (row.fields[column.property] === undefined) {
+
         return hiddenInputs()
     }
     if (row.fields[column.property].showInput) {
@@ -393,6 +408,18 @@ const dbclick = function (row, column, cell, event) {
     } else {
         hiddenInputs()
         row.fields[column.property].showInput = true
+        let arr = ['run800', 'run1000']
+        if (arr.indexOf(column.property) !== -1) {
+            const val = row.fields[column.property].value
+            if (!val) {
+                return
+            } else {
+                let m = val.slice(0, String(val).indexOf("'"))
+
+                let s = val.slice(String(val).indexOf("'") + 1, val.indexOf('"'))
+                row.fields[column.property].value = Number(m) * 60 + Number(s)
+            }
+        }
     }
 }
 
