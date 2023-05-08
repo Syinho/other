@@ -52,7 +52,12 @@ const getScore = function () {
                 }
                 console.log(item)
                 if (item.key === 'bmi_score') {
-                    scoreObj.part = `身高${scoreData.fields['height']}/体重${scoreData.fields['weight']}`
+                    if (scoreData.fields['height']) {
+                        scoreObj.part += `身高${scoreData.fields['height']}`
+                    }
+                    if (scoreData.fields['weight']) {
+                        scoreObj.part += `体重${scoreData.fields['weight']}`
+                    }
                 } else if (item.key === 'pulmonary_score') {
                     scoreObj.part = scoreData.fields['pulmonary']
                         ? scoreData.fields['pulmonary']
