@@ -33,7 +33,7 @@
             <el-table-column prop="fields.begin_time" label="起始时间" />
             <el-table-column prop="fields.end_time" label="终止时间" />
             <el-table-column prop="fields.half" label="春/秋"></el-table-column>
-            <el-table-column label="操作" fixed="right" width="200">
+            <el-table-column label="操作" fixed="right" width="200" align="center">
                 <template #default="scope">
                     <el-button
                         type="primary"
@@ -53,7 +53,7 @@
                     >
                         编辑
                     </el-button>
-                    <el-button type="default" link size="small" @click="view(scope.row)">
+                    <el-button type="default" link size="small" @click="view(scope.row)" v-if="auth===1">
                         查看
                     </el-button>
                 </template>
