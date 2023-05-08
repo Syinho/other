@@ -369,16 +369,16 @@ const getStusData = async function () {
                 let arr = ['run800', 'run1000']
                 if (arr.indexOf(prop) !== -1) {
                     console.log(stu.fields[prop])
-                    if(stu.fields[prop]===null){
-                        return null
+                    if (stu.fields[prop] === null) {
+                        stu.fields[prop] = null
                     }
                     let timeStamp = Number(stu.fields[prop])
-                    let m=Math.floor(timeStamp/60)
-                    let s=timeStamp%60
-                    if(m>0){
-                        stu.fields[prop]=`${m}'${s}`
-                    }else{
-                        stu.fields[prop]=`${s}`
+                    let m = Math.floor(timeStamp / 60)
+                    let s = timeStamp % 60
+                    if (m > 0) {
+                        stu.fields[prop] = `${m}'${s}`
+                    } else {
+                        stu.fields[prop] = `${s}`
                     }
                     // let m = Math.floor((timeStamp % 3600) / 60),
                     //     s = Math.floor(((timeStamp % 3600000) % 60000) / 1000),
@@ -411,7 +411,6 @@ const hiddenInputs = function () {
 
 const dbclick = function (row, column, cell, event) {
     if (row.fields[column.property] === undefined) {
-
         return hiddenInputs()
     }
     if (row.fields[column.property].showInput) {
