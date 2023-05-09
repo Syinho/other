@@ -28,10 +28,11 @@
             v-loading="loading"
             border
             :row-key="row => row.pk"
+            stripe
         >
-            <el-table-column>
+            <el-table-column style="position: relative">
                 <template #default="scope">
-                  <div style="width:30px"></div>
+                    <div class="status-ball" :class="chk(scope.row)"></div>
                 </template>
             </el-table-column>
             <el-table-column prop="fields.name" label="体测任务" width="180" />
@@ -106,7 +107,7 @@ const totalData = ref([])
 const loading = ref(false)
 
 const colorTag = [
-    { name: '发布中', color: '#fff' },
+    { name: '发布中', color: '#FFE793' },
     { name: '进行中', color: '#3399cc' },
     { name: '已结束', color: '#ccc' },
     { name: '未开始', color: '#003366' },
@@ -222,6 +223,28 @@ const tableRowClassName = function ({ row }) {
 /* 任务完成情况 */
 const viewTask = function (data) {
     $router.push(`/manage/admin/viewtaskprogress/${data.pk}`)
+}
+
+/* 检查status */
+const chk=function(row){
+   let timeStamp_end = new Date(row.fields.end_time).getTime()
+    let timeStamp_begin = new Date(row.fields.begin_time).getTime()
+    // 发布中
+    if (Number(row.fields.status) !== 1) {
+        return 'creating'
+    }
+    // 未开始
+    else if (Number(timeStamp_begin) > Date.now()) {
+        return 'unbegin'
+    }
+    // 已结束
+    else if (Number(timeStamp_end) < Date.now()) {
+        return 'end'
+    }
+    // 进行中
+    else if (Number(timeStamp_begin) <= Date.now() && Number(timeStamp_end) >= Date.now()) {
+        return 'ing'
+    }
 }
 </script>
 

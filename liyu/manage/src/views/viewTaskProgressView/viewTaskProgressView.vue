@@ -10,17 +10,14 @@
             :row-key="row => row.pk"
             v-loading="loading"
         >
-            <el-table-column label="教师" prop="teacher__name" align="center"></el-table-column>
+            <el-table-column label="职工号" prop="teacher__uid" align="center"></el-table-column>
+            <el-table-column label="教师姓名" prop="teacher__name" align="center"></el-table-column>
             <el-table-column
-                label="已完成的体测任务"
+                label="已登记学生数"
                 prop="already_count"
                 align="center"
             ></el-table-column>
-            <el-table-column
-                label="参与的体测任务"
-                prop="total_count"
-                align="center"
-            ></el-table-column>
+            <el-table-column label="总学生数" prop="total_count" align="center"></el-table-column>
         </el-table>
         <div class="pagination-container">
             <el-pagination
@@ -39,7 +36,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { reqViewTaskProgress } from '@/ajax/api.js'
+import { reqViewTaskProgress, reqGetAllTeachers } from '@/ajax/api.js'
 import { useRoute, useRouter } from 'vue-router'
 const $router = useRouter()
 const $route = useRoute()
@@ -53,6 +50,11 @@ let pageSize = ref(20) // 限定每页显示20个
 let currentPage = ref(1) // 当前页默认为1
 const getTaskProgress = async function () {
     loading.value = true
+    const res_teachers = await reqGetAllTeachers()
+    if (res_teachers.code === 200) {
+        const data = JSON.parse(res_teachers.data)
+        console.log(data)
+    }
     const res = await reqViewTaskProgress(id)
     if (Number(res.code) === 200) {
         const data = JSON.parse(res.data)

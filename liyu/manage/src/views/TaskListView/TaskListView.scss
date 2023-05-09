@@ -12,25 +12,21 @@
     // 发布中
     & :deep(.el-table .publishing-row) {
         background: #fff;
-        opacity: .6;
-
     }
     // 进行中
     & :deep(.el-table .progress-row) {
         background: #3399cc;
-        opacity: .6;
+        opacity: 0.6;
     }
     // 未开始
     & :deep(.el-table .unbegin-row) {
         background: #003366;
-        opacity: .6;
-
+        opacity: 0.6;
     }
     // 已结束
     & :deep(.el-table .end-row) {
         background: #ccc;
-        opacity: .6;
-
+        opacity: 0.6;
     }
 }
 
@@ -59,5 +55,32 @@
                 }
             }
         }
+    }
+}
+
+.status-ball {
+    width: 30px;
+    height: 30px;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    // 未开始
+    &.unbegin {
+        background: #003366;
+    }
+    // 发布中
+    &.creating {
+        background: #FFE793;
+    }
+    // 惊进行中
+    &.ing {
+        background: #3399cc;
+    }
+
+    // 结束
+    &.end {
+        background: #ccc;
     }
 }
