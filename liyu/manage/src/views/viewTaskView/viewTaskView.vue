@@ -26,6 +26,7 @@
             <el-select
                 placeholder="选择年级"
                 size="small"
+                clearable
                 @change="
                     val => {
                         selectChange(val, 'grade')
@@ -43,6 +44,7 @@
             <el-select
                 placeholder="选择学院"
                 size="small"
+                clearable
                 @change="
                     val => {
                         selectChange(val, 'college')
@@ -60,6 +62,7 @@
             <el-select
                 placeholder="选择专业"
                 size="small"
+                clearable
                 @change="
                     val => {
                         selectChange(val, 'major')
@@ -77,6 +80,7 @@
             <el-select
                 placeholder="选择班级"
                 size="small"
+                clearable
                 @change="
                     val => {
                         selectChange(val, 'class_name')
