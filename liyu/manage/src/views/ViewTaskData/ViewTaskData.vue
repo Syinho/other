@@ -39,14 +39,8 @@
             <el-button @click="query" type="primary" size="small">执行查询</el-button>
         </el-form-item>
     </el-form>
-    <div>
-        <el-descriptions
-            :title="translate(field)"
-            v-for="(field, index) in fields"
-            :key="'field' + index"
-            :column="2"
-            border
-        >
+    <div v-for="(field, index) in fields" style="margin-bottom: 15px">
+        <el-descriptions :title="translate(field)" :key="'field' + index" :column="1">
             <el-descriptions-item :label="trans(item)" v-for="(item, index) in data">
                 {{
                     arr_.indexOf(item) === -1
@@ -71,7 +65,7 @@ const options_dataType = ref([
     { name: '最大值', value: 'max' },
     { name: '最小值', value: 'min' },
     { name: '良好率', value: 'good' },
-    { name: '及格', value: 'median' },
+    { name: '中位数', value: 'median' },
     { name: '优秀率', value: 'excellent' },
     { name: '及格率', value: 'qualified' },
     { name: '不及格率', value: 'unqualified' },
@@ -80,7 +74,7 @@ const translate_ = {
     max: '最大值',
     min: '最小值',
     good: '良好率',
-    median: '及格',
+    median: '中位数',
     excellent: '优秀率',
     qualified: '及格率',
     unqualified: '不及格率',
