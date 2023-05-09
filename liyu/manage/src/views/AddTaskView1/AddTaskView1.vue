@@ -102,7 +102,7 @@
                     <el-button type="success" @click="submitStusInfo">下一步</el-button>
                 </el-carousel-item>
                 <el-carousel-item name="step3">
-                    <h4 :style="{ marginBottom: '20px' }">选择指导教师</h4>
+                    <h4 :style="{ marginBottom: '20px' }">选择参与的体测教师</h4>
                     <el-select
                         v-model="form1.teachers"
                         multiple

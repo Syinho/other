@@ -12,18 +12,25 @@
     // 发布中
     & :deep(.el-table .publishing-row) {
         background: #fff;
+        opacity: .6;
+
     }
     // 进行中
     & :deep(.el-table .progress-row) {
         background: #3399cc;
+        opacity: .6;
     }
     // 未开始
     & :deep(.el-table .unbegin-row) {
         background: #003366;
+        opacity: .6;
+
     }
     // 已结束
     & :deep(.el-table .end-row) {
         background: #ccc;
+        opacity: .6;
+
     }
 }
 

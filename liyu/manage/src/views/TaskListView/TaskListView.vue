@@ -21,14 +21,19 @@
                 </li>
             </ul>
         </div>
+        <!-- :row-class-name="tableRowClassName" -->
         <el-table
             :data="tableData"
             style="width: 98%"
             v-loading="loading"
             border
             :row-key="row => row.pk"
-            :row-class-name="tableRowClassName"
         >
+            <el-table-column>
+                <template #default="scope">
+                  <div style="width:30px"></div>
+                </template>
+            </el-table-column>
             <el-table-column prop="fields.name" label="体测任务" width="180" />
             <el-table-column prop="fields.begin_time" label="起始时间" />
             <el-table-column prop="fields.end_time" label="终止时间" />

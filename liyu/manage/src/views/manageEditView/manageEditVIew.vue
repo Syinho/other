@@ -90,10 +90,10 @@ const getScore = async function () {
         const task = Array.prototype.find.call(data, item => {
             return Number(item.pk) === Number(task_id)
         })
-        // stu_pk.value = task.fields.student.pk
-        // console.log(task)
-        // form.value = { ...task.fields }
-        // console.log(form.value)
+        stu_pk.value = task.fields.student.pk
+        console.log(task)
+        form.value = { ...task.fields }
+        console.log(form.value)
     }
 }
 getScore()
