@@ -15,7 +15,7 @@
                         />
                     </el-checkbox-group>
                     <div class="btns">
-                        <el-button @click="exportAll">导出标准</el-button>
+                        <el-button @click="exportAll">导出标准数据</el-button>
                         <el-button @click="exportSome">导出已勾选的数据</el-button>
                     </div>
                 </el-popover>
