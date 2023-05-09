@@ -11,8 +11,14 @@
             <el-descriptions-item label="截止时间">
                 {{ pageData.taskData === null ? 0 : handleTime(pageData.taskData.end_time) }}
             </el-descriptions-item>
-            <el-descriptions-item label="季节">
-                {{ pageData.taskData === null ? '春' : pageData.taskData.half === 1 ? '春' : '秋' }}
+            <el-descriptions-item label="学期">
+                {{
+                    pageData.taskData === null
+                        ? ''
+                        : pageData.taskData.half === 1
+                        ? pageData.taskData.year + '春'
+                        : pageData.taskData.year + '秋'
+                }}
             </el-descriptions-item>
         </el-descriptions>
         <el-divider border-style="dashed" />

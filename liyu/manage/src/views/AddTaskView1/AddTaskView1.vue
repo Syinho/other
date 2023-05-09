@@ -54,7 +54,7 @@
                         <el-form-item label="年份" prop="year">
                             <el-input
                                 v-model="form1.year"
-                                placeholder="请输入体测的学期"
+                                placeholder="请输入体测的年份"
                                 :style="{ width: '214px' }"
                             ></el-input>
                         </el-form-item>
@@ -201,6 +201,7 @@ const chkRoute = async function () {
         if (res.code === 200) {
             const data = JSON.parse(res.data)[0]
             // 任务状态为1, 代表已完成三次任务提交, 进入该页面只是修改任务的基本信息
+            console.log(data.fields.status)
             if (Number(data.fields.status) === 1) {
                 addOrModify.value = false
 
@@ -219,12 +220,12 @@ const chkRoute = async function () {
                 //   }
                 // form1.year = data.fields.year
             }
-            // 任务状态未2, 代表提交了基本的任务信息, 没有提交学生的表单
-            else if (Number(data.fields.status) === 2) {
+            // 任务状态为3, 代表提交了基本的任务信息, 没有提交学生的表单
+            else if (Number(data.fields.status) === 3) {
                 task_id.value = Number(id)
                 active.value = 1 // 步骤条进行到1
                 carousel.value.setActiveItem('step2')
-            } else if (Number(data.fields.status) === 3) {
+            } else if (Number(data.fields.status) === 2) {
                 // 获取教师名单
                 const resAllTeachers = await reqGetAllTeachers()
                 if (Number(resAllTeachers.code) === 200) {
