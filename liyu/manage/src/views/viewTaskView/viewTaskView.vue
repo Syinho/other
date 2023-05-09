@@ -313,7 +313,6 @@ const getScore = async function () {
         })
         const keys = Object.keys(data[0].fields)
         let arr = ['task', 'student', 'teacher', 'remark']
-        console.log(keys)
         const newKeys = Array.prototype.map.call(keys, item => {
             if (arr.indexOf(item) !== -1) {
             } else {
@@ -323,6 +322,8 @@ const getScore = async function () {
         })
         const compact = arr => arr.filter(Boolean)
         key_fileds.value = compact(newKeys)
+        console.log(data)
+        tableData.value=data
     } else {
         ElMessage.error('获取学生分数失败')
     }
