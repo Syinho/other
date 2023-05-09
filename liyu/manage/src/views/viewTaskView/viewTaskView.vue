@@ -311,19 +311,20 @@ const getScore = async function () {
         Array.prototype.sort.call(classOptions.value, function (a, b) {
             return Number(a) - Number(b)
         })
-        const keys = Object.keys(data[0].fields)
-        let arr = ['task', 'student', 'teacher', 'remark']
-        const newKeys = Array.prototype.map.call(keys, item => {
-            if (arr.indexOf(item) !== -1) {
-            } else {
-                console.log(item)
-                return translate(item)
-            }
-        })
-        const compact = arr => arr.filter(Boolean)
-        key_fileds.value = compact(newKeys)
-        console.log(data)
-        tableData.value=data
+        if (data.length > 0) {
+            const keys = Object.keys(data[0].fields)
+            let arr = ['task', 'student', 'teacher', 'remark']
+            const newKeys = Array.prototype.map.call(keys, item => {
+                if (arr.indexOf(item) !== -1) {
+                } else {
+                    console.log(item)
+                    return translate(item)
+                }
+            })
+            const compact = arr => arr.filter(Boolean)
+            key_fileds.value = compact(newKeys)
+        }
+        tableData.value = data
     } else {
         ElMessage.error('获取学生分数失败')
     }
