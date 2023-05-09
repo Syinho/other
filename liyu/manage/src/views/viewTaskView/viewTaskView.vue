@@ -19,7 +19,9 @@
                         <el-button @click="exportSome">导出被选择的数据</el-button>
                     </div>
                 </el-popover>
-                <a v-if="filename" type="download" class="down_a">点击下载${{ filename }}</a>
+                <a v-if="filename" :download="filename" class="down_a" :href="FILEHOST + filename">
+                    点击下载{{ filename }}
+                </a>
             </template>
             <el-descriptions-item label="任务名">
                 {{ pageData.taskData === null ? '' : pageData.taskData.name }}
@@ -194,7 +196,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { translate } from '@/utils/index.js'
-import {FILEHOST} from '@/ajax/env.js'
+import { FILEHOST } from '@/ajax/env.js'
 import {
     reqGetTask,
     reqViewTaskProgress,
@@ -405,7 +407,8 @@ const edit = function (data) {
 const exportAll = async function () {
     const res = await reqExportAll($route.params.id)
     if (res.code === 200) {
-        filename.value=`${FILEHOST}`
+        console.log(res.filename)
+        filename.value = res.filename
     }
 }
 
