@@ -141,6 +141,20 @@ export const reqStatisticalData = payload =>
         .then(response => response.data)
         .catch(err => err)
 
+// 2.17 导出全部数据
+export const reqExportAll = task_id =>
+    instance
+        .get('/exporttaskstandarddata', { query: { task_id } })
+        .then(response => response.data)
+        .catch(err => err)
+
+// 2.18 导出部分数据
+export const reqExportSome = (task_id, items) =>
+    instance
+        .post('/exporttaskdata', { data: { task_id, items } })
+        .then(response => response.data)
+        .catch(err => err)
+
 /* 3.教师账户管理 */
 // 3.1 添加新的教师
 export const reqPostNewTeacher = (uid, name) =>

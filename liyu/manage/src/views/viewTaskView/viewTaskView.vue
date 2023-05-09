@@ -2,6 +2,25 @@
     <div>
         <h2 :style="{ marginBottom: '20px' }">查看任务</h2>
         <el-descriptions title="体测任务基本信息" :column="2">
+            <template #extra>
+                <el-popover placement="right" :width="400" trigger="click">
+                    <template #reference>
+                        <el-button style="margin-right: 16px">点击导出数据</el-button>
+                    </template>
+                    <el-checkbox-group v-model="chkList">
+                        <el-checkbox
+                            :label="item"
+                            v-for="(item, index) in key_fileds"
+                            :key="index"
+                        />
+                    </el-checkbox-group>
+                    <div class="btns">
+                        <el-button @click="exportAll">导出所有数据</el-button>
+                        <el-button @click="exportSome">导出被选择的数据</el-button>
+                    </div>
+                </el-popover>
+                <a v-if="filename" type="download" class="down_a">点击下载${{ filename }}</a>
+            </template>
             <el-descriptions-item label="任务名">
                 {{ pageData.taskData === null ? '' : pageData.taskData.name }}
             </el-descriptions-item>
@@ -126,6 +145,7 @@
                 </template>
             </el-input>
         </div>
+
         <!-- 表单 -->
         <el-table
             :data="tableData"
@@ -173,16 +193,21 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
+import { translate } from '@/utils/index.js'
+import {FILEHOST} from '@/ajax/env.js'
 import {
     reqGetTask,
     reqViewTaskProgress,
     reqGetAllStusClassInfo,
     reqScore,
     reqPutStusScore,
+    reqExportAll,
+    reqExportSome,
 } from '@/ajax/api.js'
 import { useRoute, useRouter } from 'vue-router'
 import { handleTime, handle_time } from '@/utils/index.js'
 import { Search } from '@element-plus/icons-vue'
+const filename = ref('')
 const pageData = reactive({
     taskData: ref(null),
 })
@@ -198,6 +223,8 @@ const searchParams = reactive({
     search_key: 'student__uid',
     search_value: '',
 })
+const chkList = ref([])
+const fileds = ref([])
 const props = [
     'flexion',
     'height',
@@ -238,6 +265,7 @@ let gradeOptions = ref([])
 let collegeOptions = ref([])
 let majorOptions = ref([])
 let classOptions = ref([])
+let key_fileds = ref([])
 const getScore = async function () {
     const id = $route.params.id
     loading.value = true
@@ -281,7 +309,18 @@ const getScore = async function () {
         Array.prototype.sort.call(classOptions.value, function (a, b) {
             return Number(a) - Number(b)
         })
-        tableData.value = data
+        const keys = Object.keys(data[0].fields)
+        let arr = ['task', 'student', 'teacher', 'remark']
+        console.log(keys)
+        const newKeys = Array.prototype.map.call(keys, item => {
+            if (arr.indexOf(item) !== -1) {
+            } else {
+                console.log(item)
+                return translate(item)
+            }
+        })
+        const compact = arr => arr.filter(Boolean)
+        key_fileds.value = compact(newKeys)
     } else {
         ElMessage.error('获取学生分数失败')
     }
@@ -361,6 +400,16 @@ const edit = function (data) {
         query: { stu_uid: data.fields.student.uid, task_id: $route.params.id },
     })
 }
+
+/* 导出全部 */
+const exportAll = async function () {
+    const res = await reqExportAll($route.params.id)
+    if (res.code === 200) {
+        filename.value=`${FILEHOST}`
+    }
+}
+
+const exportSome = function () {}
 </script>
 
 <style scoped lang="scss">

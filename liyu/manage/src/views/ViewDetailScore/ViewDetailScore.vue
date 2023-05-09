@@ -44,7 +44,8 @@ const getScore = function () {
             let reg = /_score/g
             let item = initData.value[i]
             if (reg.test(item.key)) {
-                let key_ = tran(item.key)
+                console.log(item.key)
+                let key_ = translate(item.key)
                 let scoreObj = {
                     name: key_,
                     value: item.value,
