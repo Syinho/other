@@ -48,7 +48,11 @@
             border
         >
             <el-descriptions-item :label="trans(item)" v-for="(item, index) in data">
-                {{ queryResult[field][item] }}
+                {{
+                    arr_.indexOf(item) === -1
+                        ? queryResult[field][item]
+                        : Number(queryResult[field][item] * 100).toFixed(2) + '%'
+                }}
             </el-descriptions-item>
         </el-descriptions>
     </div>
@@ -66,21 +70,22 @@ const options_fields = ref(translateObj)
 const options_dataType = ref([
     { name: '最大值', value: 'max' },
     { name: '最小值', value: 'min' },
-    { name: '良好', value: 'good' },
+    { name: '良好率', value: 'good' },
     { name: '及格', value: 'median' },
-    { name: '优秀', value: 'excellent' },
-    { name: '及格', value: 'qualified' },
-    { name: '不及格', value: 'unqualified' },
+    { name: '优秀率', value: 'excellent' },
+    { name: '及格率', value: 'qualified' },
+    { name: '不及格率', value: 'unqualified' },
 ])
 const translate_ = {
     max: '最大值',
     min: '最小值',
-    good: '良好',
+    good: '良好率',
     median: '及格',
-    excellent: '优秀',
-    qualified: '及格',
-    unqualified: '不及格',
+    excellent: '优秀率',
+    qualified: '及格率',
+    unqualified: '不及格率',
 }
+let arr_ = ref(['good', 'excellent', 'qualified', 'unqualified'])
 const trans = function (key) {
     return translate_[key]
 }
