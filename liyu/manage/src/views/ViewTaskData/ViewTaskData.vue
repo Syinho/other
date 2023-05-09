@@ -44,10 +44,10 @@
             :title="translate(field)"
             v-for="(field, index) in fields"
             :key="'field' + index"
-            column="2"
+            :column="2"
             border
         >
-            <el-descriptions-item :label="item" v-for="(item, index) in data">
+            <el-descriptions-item :label="trans(item)" v-for="(item, index) in data">
                 {{ queryResult[field][item] }}
             </el-descriptions-item>
         </el-descriptions>
@@ -72,7 +72,7 @@ const options_dataType = ref([
     { name: '及格', value: 'qualified' },
     { name: '不及格', value: 'unqualified' },
 ])
-const translate_ = ref({
+const translate_ = {
     max: '最大值',
     min: '最小值',
     good: '良好',
@@ -80,7 +80,10 @@ const translate_ = ref({
     excellent: '优秀',
     qualified: '及格',
     unqualified: '不及格',
-})
+}
+const trans = function (key) {
+    return translate_[key]
+}
 const form = reactive({
     fields: [],
     data: [],
