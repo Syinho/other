@@ -51,12 +51,14 @@
                                 />
                             </el-config-provider>
                         </el-form-item>
-                        <el-form-item prop="half.value" label="季节">
-                            <!-- <el-input
-                v-model="form1.half.value"
-                placeholder="季节由任务的起始时间决定"
-                disabled
-              ></el-input> -->
+                        <el-form-item label="年份" prop="year">
+                            <el-input
+                                v-model="form1.year"
+                                placeholder="请输入体测的学期"
+                                :style="{ width: '214px' }"
+                            ></el-input>
+                        </el-form-item>
+                        <el-form-item prop="half.value" label="春/秋">
                             <el-select
                                 v-model="form1.half"
                                 class="m-2"
@@ -215,7 +217,7 @@ const chkRoute = async function () {
                 //     value: Number(data.fields.half),
                 //     name: Number(data.fields.half) === 1 ? '春' : '秋',
                 //   }
-                form1.year = data.fields.year
+                // form1.year = data.fields.year
             }
             // 任务状态未2, 代表提交了基本的任务信息, 没有提交学生的表单
             else if (Number(data.fields.status) === 2) {

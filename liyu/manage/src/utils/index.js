@@ -50,3 +50,9 @@ export const translate = {
     curlorup:'引体向上/仰卧起坐',
     end:'最终'
 }
+
+export const handle_time=function(time){
+    let m=Math.floor(Number(time)/60)
+    let s=Number(time)%60
+    return `${m}'${s}`
+}

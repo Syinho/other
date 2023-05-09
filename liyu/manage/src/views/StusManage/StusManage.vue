@@ -84,13 +84,6 @@
       </el-table-column>
       <el-table-column prop="sex" label="性别">
         <template #default="scope">
-          <!-- <el-input
-                        v-model="scope.row.fields[scope.column.property].value"
-                        v-show="scope.row.fields[scope.column.property].showInput"
-                        @blur="blur(scope)"
-                        size="small"
-                        style="width: 100%; height: 40px"
-                    ></el-input> -->
           <el-select
             :model-value="scope.row.fields[scope.column.property].name"
             v-show="scope.row.fields[scope.column.property].showInput"
@@ -107,20 +100,6 @@
           </el-select>
           <el-text v-show="!scope.row.fields[scope.column.property].showInput">
             {{ scope.row.fields[scope.column.property].name }}
-          </el-text>
-        </template>
-      </el-table-column>
-      <el-table-column prop="brithday" label="生日">
-        <template #default="scope">
-          <el-input
-            v-model="scope.row.fields[scope.column.property].value"
-            v-show="scope.row.fields[scope.column.property].showInput"
-            @blur="blur(scope)"
-            size="small"
-            style="width: 100%; height: 40px"
-          ></el-input>
-          <el-text v-show="!scope.row.fields[scope.column.property].showInput">
-            {{ scope.row.fields[scope.column.property].value }}
           </el-text>
         </template>
       </el-table-column>
