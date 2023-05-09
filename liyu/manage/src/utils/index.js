@@ -57,9 +57,9 @@ const translateTable = {
     run50_score: '50m得分',
     runlong_score: '800m/1000m得分',
 }
-export const translate=function(key){
+export const translate = function (key) {
     return translateTable[key]
-} 
+}
 export const translateObj = [
     { name: '身高', value: 'height' },
     { name: '体重', value: 'weight' },
@@ -86,4 +86,30 @@ export const handle_time = function (time) {
     let m = Math.floor(Number(time) / 60)
     let s = Number(time) % 60
     return `${m}'${s}`
+}
+
+const reTable = {
+    身高: 'height',
+    体重: 'weight',
+    '身高/体重得分': 'bmi_score',
+    仰卧起坐: 'curlorup_score',
+    最终得分: 'end_score',
+    坐位体前屈: 'flexion',
+    坐位体前屈得分: 'flexion_score',
+    跳远: 'jump',
+    跳远得分: 'jump_score',
+    左眼视力: 'left_eye',
+    引体向上: 'pull_up',
+    肺活量: 'pulmonary',
+    肺活量得分: 'pulmonary_score',
+    右眼视力: 'right_eye',
+    '50m': 'run50',
+    '800m': 'run800',
+    '1000m': 'run1000',
+    '50m得分': 'run50_score',
+    '800m/1000m得分': 'runlong_score',
+}
+
+export const reTranslate = function (key) {
+    return reTable[key]
 }

@@ -15,8 +15,8 @@
                         />
                     </el-checkbox-group>
                     <div class="btns">
-                        <el-button @click="exportAll">导出所有数据</el-button>
-                        <el-button @click="exportSome">导出被选择的数据</el-button>
+                        <el-button @click="exportAll">导出标准</el-button>
+                        <el-button @click="exportSome">导出已勾选的数据</el-button>
                     </div>
                 </el-popover>
                 <a v-if="filename" :download="filename" class="down_a" :href="FILEHOST + filename">
@@ -195,7 +195,7 @@
 
 <script setup>
 import { reactive, ref } from 'vue'
-import { translate } from '@/utils/index.js'
+import { translate, reTranslate } from '@/utils/index.js'
 import { FILEHOST } from '@/ajax/env.js'
 import {
     reqGetTask,
@@ -412,7 +412,17 @@ const exportAll = async function () {
     }
 }
 
-const exportSome = function () {}
+const exportSome = async function () {
+    console.log(chkList.value)
+    let newArr = Array.prototype.map.call(chkList.value, item => {
+        return reTranslate(item)
+    })
+    const res = await reqExportSome($route.params.id, newArr)
+    if (res.code === 200) {
+        console.log(res)
+        filename.value = res.filename
+    }
+}
 </script>
 
 <style scoped lang="scss">
