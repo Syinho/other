@@ -30,7 +30,7 @@
             :row-key="row => row.pk"
             stripe
         >
-            <el-table-column style="position: relative">
+            <el-table-column style="position: relative" width="45">
                 <template #default="scope">
                     <div class="status-ball" :class="chk(scope.row)"></div>
                 </template>
@@ -76,6 +76,15 @@
                         v-if="auth === 1"
                     >
                         查看任务完成情况
+                    </el-button>
+                    <el-button
+                        type="success"
+                        link
+                        size="small"
+                        @click="viewData(scope.row)"
+                        v-if="auth === 1"
+                    >
+                        查看数据统计
                     </el-button>
                 </template>
             </el-table-column>
@@ -191,6 +200,11 @@ const edit = function (data) {
 /* 查看按钮 */
 const view = function (data) {
     $router.push('/manage/admin/viewtask/' + data.pk)
+}
+
+/* 查看数据统计 */
+const viewData=function(data){
+  $router.push('/manage/admin/viewtaskdata/' + data.pk)
 }
 
 /* 教师前往录入成绩页面 */

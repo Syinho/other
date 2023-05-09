@@ -134,6 +134,13 @@ export const reqScore = payload =>
         .then(response => response.data)
         .catch(err => err)
 
+// 2.16 数据统计
+export const reqStatisticalData = payload =>
+    instance
+        .post('/scorestatics', { data: { ...payload } })
+        .then(response => response.data)
+        .catch(err => err)
+
 /* 3.教师账户管理 */
 // 3.1 添加新的教师
 export const reqPostNewTeacher = (uid, name) =>

@@ -104,6 +104,11 @@ export default [
                         component: () =>
                             import('@/views/viewTaskProgressView/viewTaskProgressView.vue'),
                     },
+                    // 查看数据统计
+                    {
+                        path: 'viewtaskdata/:id',
+                        component: () => import('@/views/ViewTaskData/ViewTaskData.vue'),
+                    },
                 ],
             },
             // 教师管理页面

@@ -50,6 +50,9 @@ export const translate = {
     curlorup:'引体向上/仰卧起坐',
     end:'最终'
 }
+export const translateObj=[
+    {name:'身高',value:'height'},{name:'体重',value:'weight'},{name:''}
+]
 
 export const handle_time=function(time){
     let m=Math.floor(Number(time)/60)
