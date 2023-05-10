@@ -36,6 +36,12 @@ export const handleTime = function (timeStamp) {
     }
 }
 
+export const reHandleTime = function (val) {
+    let m = String(val).slice(0, String(val).indexOf("'"))
+    let s = String(val).slice(String(val).indexOf("'") + 1)
+    return Number(m) * 60 + Number(s)
+}
+
 const translateTable = {
     height: '身高',
     weight: '体重',

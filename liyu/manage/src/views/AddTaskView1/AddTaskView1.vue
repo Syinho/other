@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h2 :style="{ marginBottom: '20px' }">添加任务</h2>
+        <h2 :style="{ marginBottom: '20px' }" v-cloak>{{ title }}</h2>
         <div class="content" style="height: calc(100vh - 200px)">
             <div style="height: 100%; width: 100px">
                 <el-steps
@@ -137,7 +137,7 @@ import {
     reqGetTask,
     reqUpdateTask,
 } from '@/ajax/api.js'
-import { ref, reactive, watch, nextTick } from 'vue'
+import { ref, reactive, watch, nextTick, computed } from 'vue'
 const $router = useRouter()
 const $route = useRoute()
 const carousel = ref()
@@ -162,6 +162,17 @@ const ruleForms1 = ref(null)
 let loading = ref(false)
 const filename = ref('')
 const addOrModify = ref(true) // 标识是添加还是修改数据, 默认true值代表是添加数据
+const status = ref(null)
+
+const title = computed(() => {
+    if (status.value === null) {
+        return '添加任务'
+    } else if (Number(status.value) === 1) {
+        return '修改任务基本信息'
+    } else if (Number(status.value) === 2 || Number(status.value) === 3) {
+        return '完善任务信息'
+    }
+})
 
 /* 校验规则 */
 const rules = reactive({
@@ -202,6 +213,7 @@ const chkRoute = async function () {
             const data = JSON.parse(res.data)[0]
             // 任务状态为1, 代表已完成三次任务提交, 进入该页面只是修改任务的基本信息
             console.log(data.fields.status)
+            status.value = data.fields.status
             if (Number(data.fields.status) === 1) {
                 addOrModify.value = false
 
@@ -218,7 +230,7 @@ const chkRoute = async function () {
                 //     value: Number(data.fields.half),
                 //     name: Number(data.fields.half) === 1 ? '春' : '秋',
                 //   }
-                // form1.year = data.fields.year
+                form1.year = data.fields.year
             }
             // 任务状态为3, 代表提交了基本的任务信息, 没有提交学生的表单
             else if (Number(data.fields.status) === 3) {

@@ -1,15 +1,18 @@
-.content{
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+.content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
 }
 
-#file{
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  cursor: pointer;
-  opacity: 0;
+#file {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    cursor: pointer;
+    opacity: 0;
+}
+[v-cloak] {
+    display: none;
 }

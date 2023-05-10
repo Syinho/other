@@ -316,7 +316,6 @@ const getScore = async function () {
             const newKeys = Array.prototype.map.call(keys, item => {
                 if (arr.indexOf(item) !== -1) {
                 } else {
-                    console.log(item)
                     return translate(item)
                 }
             })
@@ -413,7 +412,7 @@ const selectChange = async function (val, key) {
         const data = JSON.parse(res.data)
         tableData.value = data
     } else {
-        tableData.value=[]
+        tableData.value = []
         ElMessage.error('获取数据失败')
     }
     loading.value = false
@@ -451,6 +450,11 @@ const searchByInput = async function () {
 
 /* 跳转编辑页面 */
 const edit = function (data) {
+    const data_ = Array.prototype.find.call(tableData.value, stus => {
+        return Number(stus.fields.student.pk) === Number(data.fields.student.pk)
+    })
+    // console.log(data_)
+    localStorage.setItem('editData', JSON.stringify(data_))
     $router.push({
         name: 'editstuscore',
         query: { stu_uid: data.fields.student.uid, task_id: $route.params.id },
