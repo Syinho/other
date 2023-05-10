@@ -261,6 +261,21 @@ const getTaskById = async function () {
     }
 }
 getTaskById()
+const schoolInfomation = ref([])
+/* 获取班级,专业,学院,年级信息 */
+const getInfo = async function () {
+    const res = await reqGetAllStusClassInfo()
+    if (res.code === 200) {
+        schoolInfomation.value = JSON.parse(res.data)
+        // 初始化grade
+        Array.prototype.forEach.call(schoolInfomation.value, info => {
+            if (gradeOptions.value.indexOf(info.fields.grade) === -1) {
+                gradeOptions.value.push(info.fields.grade)
+            }
+        })
+    }
+}
+getInfo()
 
 /* 4.获取全部的学生成绩 */
 let gradeOptions = ref([])
@@ -280,22 +295,6 @@ const getScore = async function () {
         console.log(data)
         // 数据处理
         Array.prototype.forEach.call(data, stu => {
-            // grade
-            if (gradeOptions.value.indexOf(stu.fields.student.grade) === -1) {
-                gradeOptions.value.push(stu.fields.student.grade)
-            }
-            // college
-            if (collegeOptions.value.indexOf(stu.fields.student.college) === -1) {
-                collegeOptions.value.push(stu.fields.student.college)
-            }
-            // major
-            if (majorOptions.value.indexOf(stu.fields.student.major) === -1) {
-                majorOptions.value.push(stu.fields.student.major)
-            }
-            // class_name
-            if (classOptions.value.indexOf(stu.fields.student.class_name) === -1) {
-                classOptions.value.push(stu.fields.student.class_name)
-            }
             if (stu.fields.run800) {
                 stu.fields.run800 = handle_time(stu.fields.run800)
             }
@@ -334,15 +333,70 @@ getScore()
 
 /* 切换select */
 const selectChange = async function (val, key) {
-    loading.value = true
     searchParams[key] = val
+    console.log(schoolInfomation.value)
+    loading.value = true
+    // key为grade, 那么清除college, major, class的数据
+    if (key === 'grade') {
+        collegeOptions.value = []
+        majorOptions.value = []
+        classOptions.value = []
+        searchParams.college = ''
+        searchParams.major = ''
+        searchParams.class_name = ''
+        if (val !== '') {
+            // 根据新的grade数据得到college数据
+            Array.prototype.forEach.call(schoolInfomation.value, info => {
+                if (
+                    info.fields.grade === val &&
+                    collegeOptions.value.indexOf(info.fields.college) === -1
+                ) {
+                    collegeOptions.value.push(info.fields.college)
+                }
+            })
+        }
+    }
+
+    // key为college, 那么清除major,class的数据
+    if (key === 'college') {
+        majorOptions.value = []
+        classOptions.value = []
+        searchParams.major = ''
+        searchParams.class_name = ''
+        if (val !== '') {
+            // 根据新的college数据得到major的数据
+            Array.prototype.forEach.call(schoolInfomation.value, info => {
+                if (
+                    info.fields.college === val &&
+                    majorOptions.value.indexOf(info.fields.major === -1)
+                ) {
+                    majorOptions.value.push(info.fields.major)
+                }
+            })
+        }
+    }
+    // key为major, 那么清除class的数据
+    if (key === 'major') {
+        classOptions.value = []
+        searchParams.class_name = []
+        if (val !== '') {
+            // 根据新的major数据得到classOptions数据
+            Array.prototype.forEach.call(schoolInfomation.value, info => {
+                if (
+                    info.fields.major === val &&
+                    classOptions.value.indexOf(info.fields.class_id) === -1
+                ) {
+                    classOptions.value.push(info.fields.class_id)
+                }
+            })
+        }
+    }
     let paramsObj = {}
     for (const prop in searchParams) {
         // 只要search_value没有值, 就跳过增加search_key
         if (prop === 'search_key' && searchParams['search_value'] === '') {
             continue
         } else if (prop === 'search_key' && searchParams['search_value'] !== '') {
-            console.log(1)
             paramsObj[prop] = searchParams[prop]
             paramsObj['search_value'] = searchParams['search_value']
         }
@@ -355,12 +409,11 @@ const selectChange = async function (val, key) {
     }
     console.log(paramsObj)
     const res = await reqScore(paramsObj)
-    console.log(res)
     if (Number(res.code) === 200) {
         const data = JSON.parse(res.data)
-        console.log(data)
         tableData.value = data
     } else {
+        tableData.value=[]
         ElMessage.error('获取数据失败')
     }
     loading.value = false
@@ -375,7 +428,6 @@ const searchByInput = async function () {
         if (prop === 'search_key' && searchParams['search_value'] === '') {
             continue
         } else if (prop === 'search_key' && searchParams['search_value'] !== '') {
-            console.log(1)
             paramsObj[prop] = searchParams[prop]
             paramsObj['search_value'] = searchParams['search_value']
         }
@@ -409,19 +461,16 @@ const edit = function (data) {
 const exportAll = async function () {
     const res = await reqExportAll($route.params.id)
     if (res.code === 200) {
-        console.log(res.filename)
         filename.value = res.filename
     }
 }
 
 const exportSome = async function () {
-    console.log(chkList.value)
     let newArr = Array.prototype.map.call(chkList.value, item => {
         return reTranslate(item)
     })
     const res = await reqExportSome($route.params.id, newArr)
     if (res.code === 200) {
-        console.log(res)
         filename.value = res.filename
     }
 }
