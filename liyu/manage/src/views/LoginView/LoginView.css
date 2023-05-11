@@ -1,160 +1,163 @@
 /* structure start */
 @font-face {
-    font-family: 'neo';
-    src: url('@/assets/font/NEOTERICc.ttf');
+  font-family: 'neo';
+  src: url('@/assets/font/NEOTERICc.ttf');
 }
 
 @font-face {
-    font-family: 'fang';
-    src: url('@/assets/font/方正盛世楷书简体.ttf');
+  font-family: 'fang';
+  src: url('@/assets/font/ZiTiGuanJiaFangSongTi-2.ttf');
 }
 
 #main {
-    position: relative;
-    width: 100vw;
-    height: 100vh;
-    overflow: hidden;
-    background-image: linear-gradient(45deg, #409eff, #ecf5ff);
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  overflow: hidden;
+  background-image: linear-gradient(45deg, #409eff, #ecf5ff);
 }
 
 #loginInterface {
-    position: absolute;
-    width: 980px;
-    height: 500px;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 10px;
-    box-shadow: 0 0 120px rgba(0, 0, 0, 0.25);
-    overflow: hidden;
-    font-family: 'fang';
+  position: absolute;
+  width: 980px;
+  height: 500px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: 10px;
+  box-shadow: 0 0 120px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+  font-family: 'fang';
 }
 
 #loginImg,
 #login {
-    position: relative;
-    width: 50%;
-    height: 100%;
-    overflow: hidden;
+  position: relative;
+  width: 50%;
+  height: 100%;
+  overflow: hidden;
 }
 
 #loginImg {
-    float: left;
-    background-image: linear-gradient(45deg, #79bbff, #a0cfff);
+  float: left;
+  background-image: linear-gradient(45deg, #79bbff, #a0cfff);
 }
 
 #login {
-    float: right;
-    background-image: linear-gradient(45deg, #c6e2ff, #d9ecff);
-    overflow: hidden;
+  float: right;
+  background-image: linear-gradient(45deg, #c6e2ff, #d9ecff);
+  overflow: hidden;
 }
 
 #circle {
-    position: absolute;
-    width: 200px;
-    height: 200px;
-    border-radius: 50%;
-    background-image: linear-gradient(45deg, #c6e2ff, #d9ecff);
-    top: 70px;
-    left: 50%;
-    transform: translateX(-50%);
-    overflow: hidden;
+  position: absolute;
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  background-image: linear-gradient(45deg, #c6e2ff, #d9ecff);
+  top: 70px;
+  left: 50%;
+  transform: translateX(-50%);
+  overflow: hidden;
 }
 
 .cloud {
-    position: absolute;
-    width: 150px;
-    height: 40px;
-    border-radius: 50px;
+  position: absolute;
+  width: 150px;
+  height: 40px;
+  border-radius: 50px;
 }
 
 #leftCloud {
-    top: 30px;
-    left: -38px;
-    background-color: #a0cfff;
+  top: 30px;
+  left: -38px;
+  background-color: #a0cfff;
 }
 
 #rightCloud {
-    bottom: 20px;
-    right: -35px;
-    background-color: #79bbff;
+  bottom: 20px;
+  right: -35px;
+  background-color: #79bbff;
 }
 
 .star {
-    position: absolute;
-    border-radius: 50%;
-    box-shadow: 0 0 7px #fff;
-    background-image: radial-gradient(#fff 10%, #fff 20%, rgba(72, 34, 64, 0));
+  position: absolute;
+  border-radius: 50%;
+  box-shadow: 0 0 7px #fff;
+  background-image: radial-gradient(#fff 10%, #fff 20%, rgba(72, 34, 64, 0));
 }
 
 .meteor {
-    width: 90px;
-    height: 3px;
-    background-image: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.2));
-    position: absolute;
-    transform: rotateZ(-45deg);
+  width: 90px;
+  height: 3px;
+  background-image: linear-gradient(90deg, #fff, rgba(255, 255, 255, 0.2));
+  position: absolute;
+  transform: rotateZ(-45deg);
 }
 
 #loginImg p {
-    margin-top: 340px;
-    text-align: center;
-    color: #ecf5ff;
-    letter-spacing: 10px;
-    font-size: 35px;
-    font-family: 'fang';
-    font-weight: 100;
-    text-indent: 30px;
-    font-family: 'neo';
+  margin-top: 340px;
+  text-align: center;
+  color: #ecf5ff;
+  letter-spacing: 10px;
+  font-size: 35px;
+  font-family: 'fang';
+  font-weight: 100;
+  text-indent: 30px;
+  font-family: 'neo';
 }
 #loginImg p:nth-of-type(2) {
-    margin-top: 0;
+  margin-top: 0;
+}
+.title {
+  font-family: 'fang' !important;
 }
 
 /* structure end */
 
 /* login start */
 header {
-    display: block;
-    font-family: 'fang';
-    font-size: 30px;
-    font-weight: 600;
-    position: relative;
-    overflow: hidden;
-    width: 100px;
-    height: 35px;
-    margin: 40px auto;
-    color: #409eff;
+  display: block;
+  font-family: 'fang';
+  font-size: 30px;
+  font-weight: 600;
+  position: relative;
+  overflow: hidden;
+  width: 100px;
+  height: 35px;
+  margin: 40px auto;
+  color: #409eff;
 }
 
 header > span {
-    position: absolute;
-    transition: 0.5s;
+  position: absolute;
+  transition: 0.5s;
 }
 
 section {
-    text-align: center;
+  text-align: center;
 }
 
 .form input {
-    width: 300px;
-    height: 30px;
-    font-size: 18px;
-    background: none;
-    border: none;
-    border-bottom: 1px solid #409eff;
-    margin-bottom: 20px;
-    color: #409eff;
-    font-family: 'fang';
+  width: 300px;
+  height: 30px;
+  font-size: 18px;
+  background: none;
+  border: none;
+  border-bottom: 1px solid #409eff;
+  margin-bottom: 20px;
+  color: #409eff;
+  font-family: 'fang';
 }
 
 input:focus {
-    outline: none;
+  outline: none;
 }
 
 .form input::placeholder {
-    color: rgba(64, 158, 255, 0.8);
-    font-size: 18px;
-    font-family: 'fang';
+  color: rgba(64, 158, 255, 0.8);
+  font-size: 18px;
+  font-family: 'fang';
 }
 
 /* .confirm,
@@ -169,45 +172,45 @@ input:focus {
 } */
 
 .btn {
-    width: 140px;
-    height: 40px;
-    border: 1px solid #409eff;
-    background: none;
-    font-size: 20px;
-    color: #409eff;
-    cursor: pointer;
-    margin-top: 25px;
-    font-family: 'fang';
-    transition: 0.25s;
+  width: 140px;
+  height: 40px;
+  border: 1px solid #409eff;
+  background: none;
+  font-size: 20px;
+  color: #409eff;
+  cursor: pointer;
+  margin-top: 25px;
+  font-family: 'fang';
+  transition: 0.25s;
 }
 .btn:nth-of-type(1) {
-    margin-right: 20px;
+  margin-right: 20px;
 }
 
 .btn:hover {
-    background: rgba(255, 255, 255, 0.25);
+  background: rgba(255, 255, 255, 0.25);
 }
 
 #login a {
-    color: #409eff;
-    display: block;
-    margin-top: 80px;
-    font-size: 18px;
+  color: #409eff;
+  display: block;
+  margin-top: 80px;
+  font-size: 18px;
 }
 
 .register-input {
-    height: 0;
-    overflow: hidden;
-    transition: height 0.5s;
-    will-change: height;
+  height: 0;
+  overflow: hidden;
+  transition: height 0.5s;
+  will-change: height;
 }
 
 .register-input.inactive {
-    height: 0;
+  height: 0;
 }
 
 .register-input.active {
-    height: 100px;
+  height: 100px;
 }
 
 /* input::-ms-clear {
@@ -222,40 +225,40 @@ input:focus {
 
 /* 响应式 start */
 @media screen and (max-width: 1000px) {
-    #loginImg {
-        display: none;
-    }
+  #loginImg {
+    display: none;
+  }
 
-    #loginInterface {
-        width: 490px;
-        margin-right: -245px;
-    }
+  #loginInterface {
+    width: 490px;
+    margin-right: -245px;
+  }
 
-    #login {
-        width: 100%;
-    }
+  #login {
+    width: 100%;
+  }
 }
 
 @media screen and (max-width: 560px) {
-    #loginInterface {
-        width: 330px;
-        margin-right: -165px;
-    }
+  #loginInterface {
+    width: 330px;
+    margin-right: -165px;
+  }
 
-    .form input {
-        width: 250px;
-    }
+  .form input {
+    width: 250px;
+  }
 
-    .btn {
-        width: 113px;
-    }
+  .btn {
+    width: 113px;
+  }
 }
 
 @media screen and (max-width: 345px) {
-    #loginInterface {
-        width: 290px;
-        margin-right: -145px;
-    }
+  #loginInterface {
+    width: 290px;
+    margin-right: -145px;
+  }
 }
 
 /* 响应式 end */
