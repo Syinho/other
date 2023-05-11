@@ -29,8 +29,8 @@
       <el-form-item prop="pulmonary" label="肺活量">
         <el-input v-model="form.pulmonary" placeholder="请输入学生的肺活量数据" />
       </el-form-item>
-      <el-form-item prop="adbominal" label="仰卧起坐">
-        <el-input v-model="form.adbominal" placeholder="请输入学生的仰卧起坐数据" />
+      <el-form-item prop="adbominal_curl" label="仰卧起坐">
+        <el-input v-model="form.adbominal_curl" placeholder="请输入学生的仰卧起坐数据" />
       </el-form-item>
       <el-form-item prop="pull_up" label="引体向上">
         <el-input v-model="form.pull_up" placeholder="请输入学生的引体向上数据" />
@@ -99,7 +99,7 @@ const getScore = async function () {
     console.log(task)
     stu_pk.value = task.fields.student.pk
     console.log(task)
-    form.value = { ...task.fields }
+    form.value = task.fields 
     console.log(form.value)
   } else {
     ElMessage.error('从服务器获取指定学生成绩数据失败')

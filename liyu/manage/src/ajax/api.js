@@ -256,3 +256,16 @@ export const reqGetScoringStandard = (key, grade) =>
         })
         .then(response => response.data)
         .catch(err => err)
+
+// 6.3 录入体测评分
+export const reqPutScoringStandard = (key, grade, value) =>
+    instance
+        .put('/scorestandard', {
+            body: {
+                key,
+                grade,
+                value,
+            },
+        })
+        .then(response => response.data)
+        .catch(err => err)

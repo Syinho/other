@@ -11,7 +11,7 @@
             @cell-click="click"
             :row-style="{ height: '45px' }"
         >
-            <el-table-column prop="fields.uid" label="学号"></el-table-column>
+            <el-table-column prop="fields.uid" label="学号" width="130"></el-table-column>
             <el-table-column prop="college" label="学院">
                 <template #default="scope">
                     <el-input
@@ -164,7 +164,7 @@
                     </el-text>
                 </template>
             </el-table-column>
-            <el-table-column label="状态管理" fixed="right" width="80" align="center">
+            <el-table-column label="状态" fixed="right" width="80" align="center">
                 <template #default="scope">
                     <el-switch
                         :model-value="Boolean(scope.row.fields.user.status)"
@@ -194,7 +194,7 @@
 
 <script setup>
 import { ref, reactive } from 'vue'
-import { reqGetAllStusList, reqPutStus, reqPutStusStatus } from '@/ajax/api.js'
+import { reqGetAllStusList, reqPutStus, reqPutStusStatus, } from '@/ajax/api.js'
 const tableData = ref([])
 const totalData = ref([])
 const loading = ref(false)

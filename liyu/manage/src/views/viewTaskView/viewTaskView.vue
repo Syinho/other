@@ -335,7 +335,9 @@ const selectChange = async function (val, key) {
     if (val !== '') {
       // 根据新的college数据得到major的数据
       Array.prototype.forEach.call(schoolInfomation.value, info => {
-        if (info.fields.college === val && majorOptions.value.indexOf(info.fields.major === -1)) {
+        if (info.fields.college === val && majorOptions.value.indexOf(info.fields.major )=== -1) {
+          console.log(majorOptions.value)
+          console.log()
           majorOptions.value.push(info.fields.major)
         }
       })

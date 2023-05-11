@@ -111,6 +111,7 @@ const getData = async function () {
     const res = await reqGetScoringStandard(select.key, select.grade)
     if (res.code === 200) {
         const data = JSON.parse(res.data)
+        console.log(data)
         const data_ = JSON.parse(data[select.key])
         const data__ = data_[select.gender]
         console.log(data_[select.gender])
