@@ -163,6 +163,18 @@
         </template>
       </el-table-column>
     </el-table>
+    <div class="pagination-container">
+      <el-pagination
+        small
+        background
+        layout="prev, pager, next"
+        :total="count"
+        class="mt-4"
+        :page-size="pageCount"
+        @current-change="switchData"
+        :current-page="currentPage"
+      />
+    </div>
   </div>
 </template>
 
@@ -220,6 +232,11 @@ const searchOptions = ref([
   { name: '学号', value: 'student__uid' },
   { name: '学生姓名', value: 'student__name' },
 ])
+/* 分页数据 */
+let count = ref(0) // 表单数据总数
+let pageSize = ref(20) // 限定每页显示20个
+let currentPage = ref(1) // 当前页默认为1
+let allowUpload = ref(true)
 
 /* 1.获取指定的任务数据 */
 const getTaskById = async function () {
@@ -261,6 +278,7 @@ const getScore = async function () {
   loading.value = true
   const res = await reqScore({
     task_id: searchParams.task_id,
+    page_num:1
   })
   pageCount.value = res.page_count
   if (Number(res.code) === 200) {
@@ -422,7 +440,7 @@ const edit = function (data) {
   // console.log(data_)
   localStorage.setItem('editData', JSON.stringify(data_))
   $router.push({
-    name: 'editstuscore',
+    path: '/manage/admin/editstuscore',
     query: { stu_uid: data.fields.student.uid, task_id: $route.params.id },
   })
 }
@@ -443,6 +461,14 @@ const exportSome = async function () {
   if (res.code === 200) {
     filename.value = res.filename
   }
+}
+
+// 点击分页按钮, 切换显示数据
+const switchData = function (pageNum) {
+    // loading.value = true
+    // currentPage.value = pageNum
+    // sliceTotalData()
+    // loading.value = false
 }
 </script>
 

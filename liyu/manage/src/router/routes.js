@@ -95,7 +95,6 @@ export default [
                     //   管理员修改学生分数
                     {
                         path: 'editstuscore',
-                        name: 'editstuscore',
                         component: () => import('@/views/manageEditView/manageEditView.vue'),
                     },
                     //   查看体测任务完成情况
