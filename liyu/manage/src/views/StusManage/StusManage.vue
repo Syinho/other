@@ -8,9 +8,10 @@
             stripe
             :row-key="row => row.pk"
             @cell-dblclick="dbclick"
-            @cell-click="click"
             :row-style="{ height: '45px' }"
         >
+            <!-- @cell-click="click" -->
+
             <el-table-column prop="fields.uid" label="学号" width="130"></el-table-column>
             <el-table-column prop="college" label="学院">
                 <template #default="scope">
@@ -193,8 +194,8 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { reqGetAllStusList, reqPutStus, reqPutStusStatus, } from '@/ajax/api.js'
+import { ref, reactive, nextTick } from 'vue'
+import { reqGetAllStusList, reqPutStus, reqPutStusStatus } from '@/ajax/api.js'
 const tableData = ref([])
 const totalData = ref([])
 const loading = ref(false)
@@ -230,24 +231,14 @@ const sliceTotalData = function () {
 }
 
 // 点击分页按钮, 切换显示数据
-const switchData = function (pageNum) {
+const switchData = async function (pageNum) {
     loading.value = true
     currentPage.value = pageNum
-    sliceTotalData()
-    loading.value = false
-}
-
-/* 获取全部的学生列表 */
-const getAllStus = async function () {
-    loading.value = true
-    const res = await reqGetAllStusList()
-    if (Number(res.code) === 200) {
+    const res = await reqGetAllStusList(pageNum)
+    if (res.code === 200) {
         const data = JSON.parse(res.data)
-        console.log(data)
-        count.value = data.length
-        totalData.value = data
         /* 数据处理 */
-        Array.prototype.forEach.call(totalData.value, stu => {
+        Array.prototype.forEach.call(data, stu => {
             Array.prototype.forEach.call(props, prop => {
                 if (prop === 'sex') {
                     stu.fields[prop] = {
@@ -260,7 +251,35 @@ const getAllStus = async function () {
                 }
             })
         })
-        sliceTotalData()
+        tableData.value = data
+        // sliceTotalData()
+    }
+
+    loading.value = false
+}
+
+/* 获取全部的学生列表 */
+const getAllStus = async function () {
+    loading.value = true
+    const res = await reqGetAllStusList()
+    if (Number(res.code) === 200) {
+        const data = JSON.parse(res.data)
+        count.value = Number(res.page_count) * Number(pageSize.value)
+        /* 数据处理 */
+        Array.prototype.forEach.call(data, stu => {
+            Array.prototype.forEach.call(props, prop => {
+                if (prop === 'sex') {
+                    stu.fields[prop] = {
+                        value: stu.fields[prop],
+                        name: Number(stu.fields[prop]) === 1 ? '男' : '女',
+                        showInput: false,
+                    }
+                } else {
+                    stu.fields[prop] = { value: stu.fields[prop], showInput: false }
+                }
+            })
+        })
+        tableData.value = data
     }
     loading.value = false
 }
@@ -275,17 +294,17 @@ const hiddenInputs = function () {
     })
 }
 
-const click = function (row, column, cell, event) {
-    if (row.fields[column.property] === undefined) {
-        return hiddenInputs()
-    } else {
-        if (row.fields[column.property].showInput) {
-            return
-        } else {
-            hiddenInputs()
-        }
-    }
-}
+// const click = function (row, column, cell, event) {
+//     if (row.fields[column.property] === undefined) {
+//         return hiddenInputs()
+//     } else {
+//         if (row.fields[column.property].showInput) {
+//             return
+//         } else {
+//             hiddenInputs()
+//         }
+//     }
+// }
 
 const blur = async function (scope) {
     loading.value = true
@@ -305,12 +324,19 @@ const blur = async function (scope) {
     } else {
         ElMessage.error('修改失败')
     }
+    hiddenInputs()
     loading.value = false
 }
 
 const dbclick = function (row, column, cell, event) {
-    console.log(column.property)
-    console.log(row.fields[column.property])
+    nextTick(() => {
+        let input = event.target.querySelector('input')
+        if (input) {
+            setTimeout(() => {
+                input.focus()
+            }, 0)
+        }
+    })
     if (row.fields[column.property] === undefined) {
         return hiddenInputs()
     } else {
@@ -376,8 +402,8 @@ const switchChange = async function (val, scope) {
     loading.value = false
 }
 
-const enterAndSubmit = function (val,scope) {
-  console.log(val,scope)
+const enterAndSubmit = function (val, scope) {
+    console.log(val, scope)
 }
 </script>
 

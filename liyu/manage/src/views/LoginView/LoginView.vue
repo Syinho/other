@@ -30,8 +30,8 @@
         </div>
         <div id="login">
           <header>
-            <span style="top: 0">登&nbsp;&nbsp;&nbsp;&nbsp;录</span>
-            <span style="top: 70px">注&nbsp;&nbsp;&nbsp;&nbsp;册</span>
+            <span style="top: 0">登录</span>
+            <span style="top: 70px">注册</span>
           </header>
           <section>
             <form>

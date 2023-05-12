@@ -77,9 +77,9 @@ export const reqViewTaskProgress = task_id =>
         .catch(err => err)
 
 // 2.8 获取学生列表
-export const reqGetAllStusList = () =>
+export const reqGetAllStusList = page_num =>
     instance
-        .get('/student')
+        .get('/student', { params: { page_num: page_num ? page_num : 1 } })
         .then(response => response.data)
         .catch(err => err)
 

@@ -18,7 +18,6 @@ instance.interceptors.request.use(
         if (formDataArr.indexOf(config.url) !== -1) {
             config.headers['Content-Type'] = 'application/x-www-form-urlencoded; charset=UTF-8'
         }
-        console.log(config)
         return config
     },
     function (error) {

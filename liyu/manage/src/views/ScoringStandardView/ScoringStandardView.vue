@@ -129,7 +129,6 @@ const getData = async function () {
                 } else {
                     item.value = s
                 }
-                
             })
         }
         Array.prototype.forEach.call(data__, (item, index) => {
