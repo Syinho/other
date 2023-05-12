@@ -217,7 +217,6 @@ const rules = reactive({
 const chkRoute = async function () {
     let id = $route.params.id
     if (!id) {
-        console.log('没有id')
     } else {
         // 检查status
         loading.value = true
@@ -226,7 +225,6 @@ const chkRoute = async function () {
         if (res.code === 200) {
             const data = JSON.parse(res.data)[0]
             // 任务状态为1, 代表已完成三次任务提交, 进入该页面只是修改任务的基本信息
-            console.log(data.fields.status)
             status.value = data.fields.status
             if (Number(data.fields.status) === 1) {
                 addOrModify.value = false

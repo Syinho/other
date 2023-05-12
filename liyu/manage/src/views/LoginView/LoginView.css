@@ -1,5 +1,5 @@
 /* structure start */
-@font-face {
+/* @font-face {
   font-family: 'neo';
   src: url('@/assets/font/NEOTERICc.ttf');
 }
@@ -7,7 +7,7 @@
 @font-face {
   font-family: 'fang';
   src: url('@/assets/font/方正盛世楷书简体.ttf');
-}
+} */
 
 #main {
   position: relative;
@@ -27,7 +27,7 @@
   border-radius: 10px;
   box-shadow: 0 0 120px rgba(0, 0, 0, 0.25);
   overflow: hidden;
-  font-family: 'fang';
+  /* font-family: 'fang'; */
 }
 
 #loginImg,
@@ -101,24 +101,24 @@
   color: #ecf5ff;
   letter-spacing: 10px;
   font-size: 35px;
-  font-family: 'fang';
+  /* font-family: 'fang'; */
   font-weight: 100;
   text-indent: 30px;
-  font-family: 'neo';
+  /* font-family: 'neo'; */
 }
 #loginImg p:nth-of-type(2) {
   margin-top: 0;
 }
-.title {
+/* .title {
   font-family: 'fang' !important;
-}
+} */
 
 /* structure end */
 
 /* login start */
 header {
   display: block;
-  font-family: 'fang';
+  /* font-family: 'fang'; */
   font-size: 30px;
   font-weight: 600;
   position: relative;
@@ -147,7 +147,7 @@ section {
   border-bottom: 1px solid #409eff;
   margin-bottom: 20px;
   color: #409eff;
-  font-family: 'fang';
+  /* font-family: 'fang'; */
 }
 
 input:focus {
@@ -157,7 +157,7 @@ input:focus {
 .form input::placeholder {
   color: rgba(64, 158, 255, 0.8);
   font-size: 18px;
-  font-family: 'fang';
+  /* font-family: 'fang'; */
 }
 
 /* .confirm,
@@ -180,7 +180,7 @@ input:focus {
   color: #409eff;
   cursor: pointer;
   margin-top: 25px;
-  font-family: 'fang';
+  /* font-family: 'fang'; */
   transition: 0.25s;
 }
 .btn:nth-of-type(1) {

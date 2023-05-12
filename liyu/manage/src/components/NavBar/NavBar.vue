@@ -55,7 +55,6 @@ import { chkAuth } from '@/utils/index.js'
 const taskListRoute = ref('')
 
 const auth = ref(chkAuth(localStorage.getItem('auth')))
-console.log(auth.value)
 if (auth === 1) {
     taskListRoute.value = '/manage/admin/tasklist'
 } else if (auth === 2) {
