@@ -15,7 +15,7 @@
 <script setup>
 import { reactive, ref } from 'vue'
 import { useRouter } from 'vue-router'
-import { translate } from '@/utils/index.js'
+import { translate, handle_time } from '@/utils/index.js'
 const $router = useRouter()
 const detail = ref(null)
 const list = ref([])
@@ -71,8 +71,8 @@ const getScore = function () {
                     scoreObj.part = scoreData.fields['flexion'] ? scoreData.fields['flexion'] : ''
                 } else if (item.key === 'runlong_score') {
                     scoreObj.part = scoreData.fields['run800']
-                        ? scoreData.fields['run800']
-                        : scoreData.fields['run1000']
+                        ? handle_time(scoreData.fields['run800'])
+                        : handle_time(scoreData.fields['run1000'])
                 } else if (item.key === 'curlorup_score') {
                     scoreObj.part = scoreData.fields['pull_up']
                         ? scoreData.fields['pull_up']

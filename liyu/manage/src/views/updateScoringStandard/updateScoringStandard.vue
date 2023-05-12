@@ -56,9 +56,11 @@
                     :label="String(item.score) + '分'"
                     :key="index"
                 >
-                    <template #default="scope">
-                        <el-input v-model="item.value" />
-                    </template>
+                    <el-col :md="8" :sm="16" :xs="24">
+                        <template #default="scope">
+                            <el-input v-model="item.value" style="width: '100%'" />
+                        </template>
+                    </el-col>
                 </el-form-item>
             </el-form>
             <el-form-item>

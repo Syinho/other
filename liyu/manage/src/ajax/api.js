@@ -144,7 +144,7 @@ export const reqStatisticalData = payload =>
 // 2.17 导出全部数据
 export const reqExportAll = task_id =>
     instance
-        .get('/exporttaskstandarddata', { query: { task_id } })
+        .get('/exporttaskstandarddata', { params: { task_id } })
         .then(response => response.data)
         .catch(err => err)
 

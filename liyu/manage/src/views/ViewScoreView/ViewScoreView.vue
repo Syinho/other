@@ -40,7 +40,7 @@
 import { ref } from 'vue'
 import { reqGetScore } from '@/ajax/api.js'
 import { useRouter } from 'vue-router'
-import {handleTime} from '@/utils/index.js'
+import { handleTime } from '@/utils/index.js'
 const $router = useRouter()
 
 /* 数据 */
@@ -66,12 +66,12 @@ const getScore = async function () {
         // 数据处理
         Array.prototype.forEach.call(data, item => {
             if (Number(item.fields.task.half) === 1) {
-                item.fields.task.half = '春'
+                item.fields.task.half = item.fields.task.year + '春期'
             } else if (Number(item.fields.task.half) === 2) {
-                item.fields.task.half = '秋'
+                item.fields.task.half = item.fields.task.year + '秋期'
             }
-            item.fields.task.begin_time=handleTime(Number(item.fields.task.begin_time)*1000)
-            item.fields.task.end_time=handleTime(Number(item.fields.task.end_time)*1000)
+            item.fields.task.begin_time = handleTime(Number(item.fields.task.begin_time) * 1000)
+            item.fields.task.end_time = handleTime(Number(item.fields.task.end_time) * 1000)
         })
 
         totalData.value = data
