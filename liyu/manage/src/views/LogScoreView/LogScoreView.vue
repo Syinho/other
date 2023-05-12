@@ -50,7 +50,6 @@
                 align="center"
                 prop="height"
                 label="身高"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -71,7 +70,6 @@
                 align="center"
                 prop="weight"
                 label="体重"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -92,7 +90,6 @@
                 align="center"
                 prop="pulmonary"
                 label="肺活量"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -113,7 +110,6 @@
                 align="center"
                 prop="flexion"
                 label="坐位体前屈"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -134,7 +130,6 @@
                 align="center"
                 prop="jump"
                 label="跳远"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -155,7 +150,6 @@
                 align="center"
                 prop="run50"
                 label="50米"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -176,7 +170,6 @@
                 align="center"
                 prop="run800"
                 label="800米"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -197,7 +190,6 @@
                 align="center"
                 prop="run1000"
                 label="1000米"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -218,7 +210,6 @@
                 align="center"
                 prop="pull_up"
                 label="引体向上"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -239,7 +230,6 @@
                 align="center"
                 prop="adbominal_curl"
                 label="仰卧起坐"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -261,7 +251,6 @@
                 align="center"
                 prop="left_eye"
                 label="左眼"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -282,7 +271,6 @@
                 align="center"
                 prop="right_eye"
                 label="右眼"
-                sortable
             >
                 <template #default="scope">
                     <el-input
@@ -314,7 +302,7 @@
 </template>
 
 <script setup>
-import { ref, reactive,nextTick } from 'vue'
+import { ref, reactive, nextTick } from 'vue'
 import { FILEHOST } from '@/ajax/env.js'
 import { reqGetStusList, reqPutStusScore, reqPostStusScore, reqGetDownload } from '@/ajax/api.js'
 import { useRoute } from 'vue-router'

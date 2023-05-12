@@ -261,13 +261,12 @@ export const reqGetScoringStandard = (key, grade) =>
 export const reqPutScoringStandard = (key, grade, value) =>
     instance
         .put('/scorestandard', {
-            body: {
+            
                 data: {
                     key,
                     grade,
                     value,
                 },
-            },
         })
         .then(response => response.data)
         .catch(err => err)

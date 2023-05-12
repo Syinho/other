@@ -75,6 +75,7 @@ import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { reqGetScoringStandard, reqPutScoringStandard } from '@/ajax/api.js'
 import { handle_time, reHandleTime } from '@/utils/index.js'
+const $router = useRouter()
 const loading = ref(false)
 const ruleForms = ref(null)
 const select = reactive({
@@ -145,17 +146,16 @@ const onSubmit = async function () {
     // 检查不允许有空字符串
     const maleArr = form.value['male']
     const femaleArr = form.value['female']
-
     for (let i = 0; i < maleArr.length; i++) {
         if (maleArr[i].value === '') {
-            ElMessage.error(`男性的${maleArr[i].score}分字段表单项不可为空`)
+            ElMessage.error(`${maleArr[i].score}分字段表单项不可为空`)
             loading.value = false
             return
         }
     }
     for (let i = 0; i < femaleArr.length; i++) {
         if (femaleArr[i].value === '') {
-            ElMessage.error(`女性的${femaleArr[i].score}分字段表单项不可为空`)
+            ElMessage.error(`${femaleArr[i].score}分字段表单项不可为空`)
             loading.value = false
             return
         }
@@ -170,14 +170,13 @@ const onSubmit = async function () {
             femaleArr[i].value = reHandleTime(femaleArr[i].value)
         }
     }
-    let obj = form.value
-    console.log(obj)
-    const res = await reqPutScoringStandard(select.key, select.grade, obj)
+    const res = await reqPutScoringStandard(select.key, select.grade, form.value)
     if (res.code === 200) {
         ElMessage({
             type: 'success',
             message: res.msg ? res.msg : '修改成功',
         })
+        $router.push('/manage/scoringstandard')
     } else {
         ElMessage.error(res.msg ? res.msg : '修改失败')
     }
