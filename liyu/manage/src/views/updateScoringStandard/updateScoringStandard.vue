@@ -1,62 +1,56 @@
 <template>
   <div>
     <h2 :style="{ marginBottom: '10px' }">修改体测评分标准</h2>
-    <el-form :model="form" label-width="90px" v-loading="loading">
+    <el-form :model="select" label-width="90px">
       <el-form-item label="年级">
-        <el-col :md="10" :sm="16" :xs="24">
-          <el-select
-            v-model="select.grade"
-            class="m-2 sel-item"
-            placeholder="选择年级"
-            size="small"
-            @change="getData"
-          >
-            <el-option
-              v-for="item in gradeOptions"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            />
-          </el-select>
-        </el-col>
+        <el-select
+          v-model="select.grade"
+          class="m-2"
+          placeholder="选择年级"
+          size="small"
+          @change="getData"
+        >
+          <el-option
+            v-for="item in gradeOptions"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="项目">
-        <el-col :md="10" :sm="16" :xs="24">
-          <el-select
-            v-model="select.key"
-            class="m-2 sel-item"
-            placeholder="选择项目"
-            size="small"
-            @change="getData"
-          >
-            <el-option
-              v-for="item in keyOptions"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            />
-          </el-select>
-        </el-col>
+        <el-select
+          v-model="select.key"
+          class="m-2"
+          placeholder="选择项目"
+          size="small"
+          @change="getData"
+        >
+          <el-option
+            v-for="item in keyOptions"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
       <el-form-item label="性别">
-        <el-col :md="10" :sm="16" :xs="24">
-          <el-select
-            v-model="select.gender"
-            class="m-2 sel-item"
-            placeholder="选择性别"
-            size="small"
-            @change="getData"
-          >
-            <el-option
-              v-for="item in genderOptions"
-              :key="item.value"
-              :label="item.name"
-              :value="item.value"
-            />
-          </el-select>
-        </el-col>
+        <el-select
+          v-model="select.gender"
+          class="m-2"
+          placeholder="选择性别"
+          size="small"
+          @change="getData"
+        >
+          <el-option
+            v-for="item in genderOptions"
+            :key="item.value"
+            :label="item.name"
+            :value="item.value"
+          />
+        </el-select>
       </el-form-item>
-      <el-form-item label="权重值修改"></el-form-item>
+
       <el-form-item>
         <el-button type="primary" @click="onSubmit">修改评分标准</el-button>
       </el-form-item>
@@ -78,6 +72,7 @@ const select = reactive({
   gender: 'male',
   name: '身体质量指数',
 })
+const form_standard = ref({})
 const gradeOptions = ref([
   { name: '低年级', value: 'low' },
   { name: '高年级', value: 'high' },
@@ -97,6 +92,19 @@ const genderOptions = ref([
   { name: '男性', value: 'male' },
   { name: '女性', value: 'female' },
 ])
+
+const getData = async function () {
+  loading.value = true
+  const key_Select = keyOptions.value.find(item => {
+    return item.value === select.key
+  })
+  select.name = key_Select.name
+  const res = await reqGetScoringStandard(select.key, select.grade)
+  if (Number(res.code === 200)) {
+    const data = JSON.parse(res.data)
+  }
+  loading.value = false
+}
 
 // const form = reactive({
 //   key: 'end_score',
