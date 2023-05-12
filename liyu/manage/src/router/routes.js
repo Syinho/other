@@ -62,10 +62,10 @@ export default [
                         component: () => import('@/views/TeacherManage/TeacherManage.vue'),
                     },
                     // 添加任务
-                    {
-                        path: 'addtask',
-                        component: () => import('@/views/AddTaskView/AddTaskView.vue'),
-                    },
+                    // {
+                    //     path: 'addtask',
+                    //     component: () => import('@/views/AddTaskView/AddTaskView.vue'),
+                    // },
                     {
                         path: 'addTask1',
                         component: () => import('@/views/AddTaskView1/AddTaskView1.vue'),
