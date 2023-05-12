@@ -170,7 +170,7 @@ const onSubmit = async function () {
             femaleArr[i].value = reHandleTime(femaleArr[i].value)
         }
     }
-    let obj = { [select.key]: form.value }
+    let obj = form.value
     console.log(obj)
     const res = await reqPutScoringStandard(select.key, select.grade, obj)
     if (res.code === 200) {

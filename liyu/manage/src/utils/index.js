@@ -37,6 +37,9 @@ export const handleTime = function (timeStamp) {
 }
 
 export const reHandleTime = function (val) {
+    if (val === '' || val === null) {
+        return null
+    }
     let m = String(val).slice(0, String(val).indexOf("'"))
     let s = String(val).slice(String(val).indexOf("'") + 1)
     return Number(m) * 60 + Number(s)
@@ -89,6 +92,11 @@ export const translateObj = [
 ]
 
 export const handle_time = function (time) {
+    if (Number(time) === 0 && time !== null) {
+        return 0
+    } else if (!Boolean(time)) {
+        return null
+    }
     let m = Math.floor(Number(time) / 60)
     let s = Number(time) % 60
     return `${m}'${s}`

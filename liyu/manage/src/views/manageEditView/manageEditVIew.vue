@@ -62,7 +62,7 @@
 import { ref, reactive } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { reqGetScore, reqPutStusScore2 } from '@/ajax/api.js'
-import { reHandleTime } from '@/utils/index.js'
+import { reHandleTime, handle_time } from '@/utils/index.js'
 const $router = useRouter()
 const $route = useRoute()
 const form = ref({
@@ -86,6 +86,8 @@ const initStusScore = function () {
         stusScore = JSON.parse(stusScore)
         console.log(stusScore)
         form.value = stusScore.fields
+        form.value.run800 = handle_time(form.value.run800)
+        form.value.run1000 = handle_time(form.value.run1000)
         stu_pk.value = stusScore.fields.student.pk
     }
     localStorage.removeItem('editData')
@@ -124,15 +126,16 @@ const submit = async function () {
             console.log(prop)
             if (prop === 'run800' || prop === 'run1000') {
                 let reg = /^\d{1,}'{1}\d{0,2}$/
-                if (reg.test(String(form.value[prop]))) {
+                console.log(prop, form.value[prop])
+                if (
+                    reg.test(String(form.value[prop])) ||
+                    form.value[prop] === '' ||
+                    form.value[prop] === null
+                ) {
                     score[prop] = reHandleTime(form.value[prop])
                 } else {
-                    if (!Boolean(form.value[prop])) {
-                        score[prop] = form.value[prop]
-                    } else {
-                        ElMessage.error(`字段${prop}数据格式有误, 请重新输入`)
-                        return
-                    }
+                    ElMessage.error(`字段${prop}数据格式有误, 请重新输入`)
+                    return
                 }
             } else {
                 // 不为null,'',0
