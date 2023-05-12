@@ -65,7 +65,9 @@ import { reqGetScore, reqPutStusScore2 } from '@/ajax/api.js'
 import { reHandleTime } from '@/utils/index.js'
 const $router = useRouter()
 const $route = useRoute()
-const form = ref({})
+const form = ref({
+  student: {},
+})
 const stu_uid = $route.query.stu_uid
 const task_id = $route.query.task_id
 const stu_pk = ref()
@@ -74,8 +76,11 @@ const allScore = ref([])
 // 初始化学生成绩
 const initStusScore = function () {
   let stusScore = localStorage.getItem('editData')
+  console.log(stusScore)
   if (!stusScore) {
     ElMessage.error('获取学生成绩数据失败, 请前往查看任务页面重试')
+    console.log($route)
+    console.log($router)
     $router.back()
   } else {
     stusScore = JSON.parse(stusScore)
@@ -99,7 +104,7 @@ const getScore = async function () {
     console.log(task)
     stu_pk.value = task.fields.student.pk
     console.log(task)
-    form.value = task.fields 
+    form.value = task.fields
     console.log(form.value)
   } else {
     ElMessage.error('从服务器获取指定学生成绩数据失败')

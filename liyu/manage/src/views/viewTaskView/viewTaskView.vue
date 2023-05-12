@@ -291,7 +291,7 @@ const getScore = async function () {
     task_id: searchParams.task_id,
     page_num: 1, // 第一次加载时只加载第一页
   })
-  count.value = res.page_count // 赋值当前的表单的总的数据长度
+  count.value = Number(res.page_count) * 20 // 赋值当前的表单的总的数据长度
   // console.log(pageCount.value) // 43
   if (Number(res.code) === 200) {
     const data = JSON.parse(res.data)
