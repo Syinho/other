@@ -314,7 +314,7 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
+import { ref, reactive,nextTick } from 'vue'
 import { FILEHOST } from '@/ajax/env.js'
 import { reqGetStusList, reqPutStusScore, reqPostStusScore, reqGetDownload } from '@/ajax/api.js'
 import { useRoute } from 'vue-router'
@@ -402,9 +402,17 @@ const hiddenInputs = function () {
 }
 
 const dbclick = function (row, column, cell, event) {
-    console.log(event.target.querySelector('input'))
-    event.target.querySelector('input').focus()
-    console.log(Object.getOwnPropertyNames(event.target.querySelector('input')))
+    // console.log(event.target.querySelector('input'))
+    // event.target.querySelector('input').focus()
+    // console.log(Object.getOwnPropertyNames(event.target.querySelector('input')))
+    nextTick(() => {
+        let input = event.target.querySelector('input')
+        if (input) {
+            setTimeout(() => {
+                input.focus()
+            }, 0)
+        }
+    })
     if (row.fields[column.property] === undefined) {
         return hiddenInputs()
     }
@@ -438,6 +446,8 @@ const click = function (row, column, cell, event) {
     }
 }
 const blur = async function (scope) {
+    loading.value = true
+    hiddenInputs()
     const stu_id = scope.row.fields.student.pk
     const prop = scope.column.property
     const val = scope.row.fields[prop].value
@@ -463,6 +473,16 @@ const blur = async function (scope) {
     }
     const res = await reqPutStusScore(task_id, teacher_pk, score_list)
     console.log(res)
+    if (res.code === 200) {
+        ElMessage({
+            type: 'success',
+            message: res.msg ? res.msg : '修改成功',
+        })
+    } else {
+        ElMessage.error(res.msg ? res.msg : '修改失败')
+    }
+
+    loading.value = false
 }
 
 /* 主动跳页 */
