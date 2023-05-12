@@ -262,9 +262,11 @@ export const reqPutScoringStandard = (key, grade, value) =>
     instance
         .put('/scorestandard', {
             body: {
-                key,
-                grade,
-                value,
+                data: {
+                    key,
+                    grade,
+                    value,
+                },
             },
         })
         .then(response => response.data)

@@ -60,6 +60,7 @@
 <script setup>
 import { ref } from 'vue'
 import { reqGetAllTeachers, reqPutTeacherStatus } from '@/ajax/api.js'
+import { Plus } from '@element-plus/icons-vue'
 import { useRouter } from 'vue-router'
 const $router = useRouter()
 const tableData = ref([])

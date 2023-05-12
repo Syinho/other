@@ -139,7 +139,7 @@
 </template>
 
 <script setup>
-import { Edit, User, Upload } from '@element-plus/icons-vue'
+import { Edit, User, Upload, Document } from '@element-plus/icons-vue'
 import zhCn from 'element-plus/dist/locale/zh-cn.mjs'
 import { useRouter, useRoute } from 'vue-router'
 import {
